@@ -42,5 +42,9 @@ def load_parquet_to_duckdb() -> str:
     return str(DUCKDB_PATH)
 
 
-if __name__ == "__main__":
+def main() -> None:
     load_parquet_to_duckdb()
+
+
+if __name__ == "__main__":
+    main()

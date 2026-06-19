@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "airflowx"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "363f33cb-eadc-424c-8f00-c4d02ae01566"
+  }
+}

@@ -1,0 +1,27 @@
+relationship af111ca1-ac7e-4444-9a03-7f5d0b268b33
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fct_contract_prices.extraction_ts
+	toColumn: LocalDateTable_baf25b4b-1e32-4300-b1d4-041b1fa0693f.Date
+
+relationship 8b773af7-dec0-47a1-902e-1fd04e88133b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: mart_market_snapshot.extraction_ts
+	toColumn: LocalDateTable_c133f654-8c05-4631-9df8-16657601e6f8.Date
+
+relationship 02dfcd91-5973-4add-8dc8-333a6ad315cc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: mart_price_trends.snapshot_hour
+	toColumn: LocalDateTable_edd4f8ed-a1da-40a2-8a29-aee8e70d4801.Date
+
+relationship AutoDetected_4843398b-8d69-4d16-b391-10e59e5e0421
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: mart_market_snapshot.contract_id
+	toColumn: fct_contract_prices.contract_id
+
+relationship AutoDetected_9d477ba8-8e61-415a-9d49-e389fbc60db3
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: mart_price_trends.contract_id
+	toColumn: fct_contract_prices.contract_id
+

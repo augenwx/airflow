@@ -1,0 +1,25 @@
+model Model
+	culture: es-ES
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-PE
+	maxParallelismPerRefresh: 1
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["fct_contract_prices","mart_market_snapshot","mart_price_trends"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table fct_contract_prices
+ref table DateTableTemplate_90371a32-0faa-4e11-84b3-8e26f4e108e6
+ref table LocalDateTable_baf25b4b-1e32-4300-b1d4-041b1fa0693f
+ref table mart_market_snapshot
+ref table LocalDateTable_c133f654-8c05-4631-9df8-16657601e6f8
+ref table mart_price_trends
+ref table LocalDateTable_edd4f8ed-a1da-40a2-8a29-aee8e70d4801
+
+ref cultureInfo es-ES
+

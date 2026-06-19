@@ -1,0 +1,134 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "line_price_trends",
+  "position": {
+    "x": 16,
+    "y": 10,
+    "z": 1,
+    "height": 340,
+    "width": 848,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_price_trends"
+                    }
+                  },
+                  "Property": "snapshot_hour"
+                }
+              },
+              "queryRef": "mart_price_trends.snapshot_hour",
+              "nativeQueryRef": "snapshot_hour"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "mart_price_trends"
+                        }
+                      },
+                      "Property": "avg_last_trade_price"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "Average(mart_price_trends.avg_last_trade_price)",
+              "nativeQueryRef": "Precio Promedio"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "mart_price_trends"
+                        }
+                      },
+                      "Property": "min_last_trade_price"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "Average(mart_price_trends.min_last_trade_price)",
+              "nativeQueryRef": "Precio Mínimo"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "mart_price_trends"
+                        }
+                      },
+                      "Property": "max_last_trade_price"
+                    }
+                  },
+                  "Function": 4
+                }
+              },
+              "queryRef": "Average(mart_price_trends.max_last_trade_price)",
+              "nativeQueryRef": "Precio Máximo"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "title": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Evolución de Precios en el Tiempo'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

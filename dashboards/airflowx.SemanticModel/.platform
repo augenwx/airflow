@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "airflowx"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "6b266f40-aa59-4efc-9f7a-36378f23968c"
+  }
+}

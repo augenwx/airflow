@@ -1,0 +1,102 @@
+table mart_market_snapshot
+	lineageTag: e26cef6e-03e1-4376-ad75-c5c7fa59a27e
+
+	column extraction_ts
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 27268b36-ea91-4b94-bb72-ee5872fdb74a
+		summarizeBy: none
+		sourceColumn: extraction_ts
+
+		variation Variación
+			isDefault
+			relationship: 8b773af7-dec0-47a1-902e-1fd04e88133b
+			defaultHierarchy: LocalDateTable_c133f654-8c05-4631-9df8-16657601e6f8.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_id
+		dataType: string
+		lineageTag: 9a620b5c-0c08-4e6e-859d-34f17e6e69f2
+		summarizeBy: none
+		sourceColumn: market_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_name
+		dataType: string
+		lineageTag: 3a8f53c9-cee8-4f60-a855-048b6617326b
+		summarizeBy: none
+		sourceColumn: market_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_id
+		dataType: string
+		lineageTag: a05ea849-ba3a-4797-872b-c8fb42378411
+		summarizeBy: none
+		sourceColumn: contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_name
+		dataType: string
+		lineageTag: b645b8c2-984e-4968-8324-884048af5aed
+		summarizeBy: none
+		sourceColumn: contract_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_trade_price
+		dataType: double
+		lineageTag: 9ae102eb-7b86-4e28-9448-037a0ae28a83
+		summarizeBy: sum
+		sourceColumn: last_trade_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column best_buy_yes_cost
+		dataType: double
+		lineageTag: c7e8ac75-3201-4ebe-a2c5-4d1438109125
+		summarizeBy: sum
+		sourceColumn: best_buy_yes_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column best_sell_yes_cost
+		dataType: double
+		lineageTag: e2bc59f8-287c-4c42-877a-ea7d722f7049
+		summarizeBy: sum
+		sourceColumn: best_sell_yes_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column price_change_from_last_close
+		dataType: double
+		lineageTag: 3dbdbb5c-9976-4081-904f-2d3a9d8254af
+		summarizeBy: sum
+		sourceColumn: price_change_from_last_close
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition mart_market_snapshot = m
+		mode: import
+		source =
+				let
+				    Origen = Odbc.DataSource("dsn=duckdb2", [HierarchicalNavigation=true]),
+				    predictit_Database = Origen{[Name="predictit",Kind="Database"]}[Data],
+				    main_marts_Schema = predictit_Database{[Name="main_marts",Kind="Schema"]}[Data],
+				    mart_market_snapshot_Table = main_marts_Schema{[Name="mart_market_snapshot",Kind="Table"]}[Data]
+				in
+				    mart_market_snapshot_Table
+
+	annotation PBI_ResultType = Table
+

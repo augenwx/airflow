@@ -1,0 +1,151 @@
+table fct_contract_prices
+	lineageTag: 7f58a3c5-0662-45b7-9e24-064a1fef1e87
+
+	column extraction_ts
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 55b64be1-844d-4664-8c95-8a543279299b
+		summarizeBy: none
+		sourceColumn: extraction_ts
+
+		variation Variación
+			isDefault
+			relationship: af111ca1-ac7e-4444-9a03-7f5d0b268b33
+			defaultHierarchy: LocalDateTable_baf25b4b-1e32-4300-b1d4-041b1fa0693f.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_id
+		dataType: string
+		lineageTag: 8c171e57-d3cc-4562-bcd9-5e0db1c63148
+		summarizeBy: none
+		sourceColumn: market_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_name
+		dataType: string
+		lineageTag: 3c538a20-a807-4f82-ac6b-185bf482eea1
+		summarizeBy: none
+		sourceColumn: market_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_id
+		dataType: string
+		lineageTag: 50e2e039-eb4b-4ee0-9eb1-23f07469c918
+		summarizeBy: none
+		sourceColumn: contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_name
+		dataType: string
+		lineageTag: 7ff3be1b-aa91-4fba-9048-3cc905f245b6
+		summarizeBy: none
+		sourceColumn: contract_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_trade_price
+		dataType: double
+		lineageTag: d1eaf7fe-0029-4bef-aac9-34b38e79ef56
+		summarizeBy: sum
+		sourceColumn: last_trade_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column best_buy_yes_cost
+		dataType: double
+		lineageTag: a2ad8547-d6b2-4af6-a94b-ccf60fcacff5
+		summarizeBy: sum
+		sourceColumn: best_buy_yes_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column best_sell_yes_cost
+		dataType: double
+		lineageTag: 53dd38a4-1a71-4319-b28f-ad227d3e0e8c
+		summarizeBy: sum
+		sourceColumn: best_sell_yes_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column best_buy_no_cost
+		dataType: double
+		lineageTag: 658f464f-3ee7-4846-9047-56de9f9974d6
+		summarizeBy: sum
+		sourceColumn: best_buy_no_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column best_sell_no_cost
+		dataType: double
+		lineageTag: 092dd36b-482a-46db-a7c3-c1f7a38f49ef
+		summarizeBy: sum
+		sourceColumn: best_sell_no_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column last_close_price
+		dataType: double
+		lineageTag: bba11ed9-a165-42b2-98b4-7c9c82319f58
+		summarizeBy: sum
+		sourceColumn: last_close_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column price_change_from_last_close
+		dataType: double
+		lineageTag: 48f21020-5ded-4e47-9ab6-0de645b9245e
+		summarizeBy: sum
+		sourceColumn: price_change_from_last_close
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Trade Price' = AVERAGE(fct_contract_prices[last_trade_price])
+		formatString: $#,##0.00
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000001
+
+	measure 'Total Contracts' = DISTINCTCOUNT(fct_contract_prices[contract_id])
+		formatString: #,##0
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000002
+
+	measure 'Total Markets' = DISTINCTCOUNT(fct_contract_prices[market_id])
+		formatString: #,##0
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000003
+
+	measure 'Max Trade Price' = MAX(fct_contract_prices[last_trade_price])
+		formatString: $#,##0.00
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000004
+
+	measure 'Avg Price Change' = AVERAGE(fct_contract_prices[price_change_from_last_close])
+		formatString: $#,##0.00
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000006
+
+	partition fct_contract_prices = m
+		mode: import
+		source =
+				let
+				    Origen = Odbc.DataSource("dsn=duckdb2", [HierarchicalNavigation=true]),
+				    predictit_Database = Origen{[Name="predictit",Kind="Database"]}[Data],
+				    main_marts_Schema = predictit_Database{[Name="main_marts",Kind="Schema"]}[Data],
+				    fct_contract_prices_Table = main_marts_Schema{[Name="fct_contract_prices",Kind="Table"]}[Data]
+				in
+				    fct_contract_prices_Table
+
+	annotation PBI_ResultType = Table

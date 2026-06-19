@@ -1,0 +1,104 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "waterfall_changes",
+  "position": {
+    "x": 788,
+    "y": 424,
+    "z": 7,
+    "height": 280,
+    "width": 476,
+    "tabOrder": 7
+  },
+  "visual": {
+    "visualType": "waterfallChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fct_contract_prices"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "fct_contract_prices.contract_name",
+              "nativeQueryRef": "contract_name"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "fct_contract_prices"
+                        }
+                      },
+                      "Property": "price_change_from_last_close"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Sum(fct_contract_prices.price_change_from_last_close)",
+              "nativeQueryRef": "Cambio de Precio"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "sentimentColors": [
+        {
+          "properties": {
+            "increaseFill": {
+              "solid": {
+                "color": "#10b981"
+              }
+            },
+            "decreaseFill": {
+              "solid": {
+                "color": "#ef4444"
+              }
+            },
+            "totalFill": {
+              "solid": {
+                "color": "#6366f1"
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "titleText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Ganadores y Perdedores (Cambio vs Cierre)'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
