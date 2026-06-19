@@ -10,18 +10,22 @@ Arquitectura:
 
 ```text
 PredictIt API
-  ↓
-Python extractor
-  ↓
-Raw JSON local data lake
-  ↓
-Parquet processed zone
-  ↓
-DuckDB local warehouse
-  ↓
-dbt transformations
-  ↓
-Power BI / Tableau / Streamlit / notebooks
+↓
+Airflow local
+↓
+Python pipeline
+↓
+Bronze: JSON crudo
+↓
+Silver: Parquet procesado
+↓
+DuckDB
+↓
+dbt
+↓
+Gold: tablas analíticas
+↓
+Power BI
 ```
 
 ## Estructura
