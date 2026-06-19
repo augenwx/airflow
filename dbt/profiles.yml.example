@@ -1,0 +1,7 @@
+predictit_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../../data/warehouse/predictit.duckdb
+      schema: main

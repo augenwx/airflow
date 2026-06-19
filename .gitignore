@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+airflow_home/
+logs/
+data/raw/**/*.json
+data/processed/**/*.parquet
+data/warehouse/*.duckdb
+data/warehouse/*.wal

@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: stg_markets
+    description: Cleaned market-level PredictIt data.
+    columns:
+      - name: market_id
+        tests: [not_null]
+
+  - name: stg_contracts
+    description: Cleaned contract-level PredictIt data.
+    columns:
+      - name: contract_id
+        tests: [not_null]
+
+  - name: fct_contract_prices
+    description: Historical fact table with contract prices and market context.
+
+  - name: mart_market_snapshot
+    description: Latest available snapshot per market contract.
+
+  - name: mart_price_trends
+    description: Hourly trend table for mining and visualization.
