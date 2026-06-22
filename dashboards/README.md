@@ -1,24 +1,23 @@
 # Dashboards de Power BI (PBIP)
 
-Esta carpeta contiene el proyecto de Power BI estructurado como **Power BI Project (.pbip)**.
-
-Al usar PBIP, en lugar de un archivo binario `.pbix` opaco, todo el modelo de datos y las visualizaciones se guardan en archivos de texto plano legibles, lo que permite un control de versiones adecuado mediante Git.
+Esta carpeta contiene el proyecto de Power BI estructurado como Power BI Project (`.pbip`).
 
 ## Contenido
 
-*   **`airflowx.pbip`**: El archivo de proyecto principal de Power BI. Ábrelo con Power BI Desktop.
-*   **`airflowx.SemanticModel/`**: Contiene la definición del modelo de datos usando el formato TMDL (Tabular Model Definition Language). Aquí se encuentran las medidas DAX (ej. en `fct_contract_prices.tmdl`).
-*   **`airflowx.Report/`**: Contiene la definición visual del dashboard en formato JSON. Incluye las páginas y los visuales nativos.
+* **`airflowx.pbip`**: archivo de proyecto principal de Power BI.
+* **`airflowx.SemanticModel/`**: definicion del modelo de datos en TMDL.
+* **`airflowx.Report/`**: definicion visual del dashboard en JSON.
 
-## Visualizaciones Incluidas
+## Visualizaciones incluidas
 
-El reporte contiene dos páginas de análisis de los mercados de predicción de PredictIt:
+El reporte contiene dos paginas de analisis de mercados de prediccion de PredictIt:
 
-1.  **Overview**: KPI principales, distribución de probabilidades, contratos por mercado y variación de precios.
-2.  **Análisis de Precios**: Análisis en el tiempo (gráficos de líneas) y un gráfico de dispersión cruzando el precio actual vs. su variación (ganadores/perdedores).
+1. **Overview**: KPI principales, distribucion de probabilidades, contratos por mercado y variacion de precios.
+2. **Analisis de Precios**: analisis temporal y dispersion entre precio actual y variacion.
 
-## Consideraciones Técnicas
+## Consideraciones tecnicas
 
-*   El modelo de datos lee directamente de `predictit.duckdb` vía ODBC.
-*   Asegúrate de que la carga paralela ("Parallel loading of tables") esté deshabilitada en la configuración global de Power BI Desktop para evitar bloqueos del archivo de base de datos DuckDB al recargar.
-*   Cualquier ajuste de diseño (colores, fondos, estilo) debe realizarse a través de la interfaz de Power BI Desktop. Editar el archivo `page.json` manualmente puede resultar en errores de esquema.
+* El dashboard fue creado inicialmente leyendo `predictit.duckdb` via ODBC.
+* Para la entrega con Snowflake, reconecta el modelo semantico a Snowflake y usa las tablas creadas por dbt en el schema de marts.
+* Con `SNOWFLAKE_SCHEMA=ANALYTICS`, dbt crea tablas en schemas como `ANALYTICS_MARTS`.
+* Cualquier ajuste de diseno debe realizarse desde Power BI Desktop. Editar `page.json` manualmente puede producir errores de esquema.

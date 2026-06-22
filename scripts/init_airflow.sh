@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Define variables
-export PROJECT_ROOT="/mnt/d/mineria data/airflow"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export PROJECT_ROOT="${PROJECT_ROOT:-$(cd "$SCRIPT_DIR/.." && pwd)}"
 export AIRFLOW_HOME="$PROJECT_ROOT/airflow_home"
 export PYTHONPATH="$PROJECT_ROOT/src:${PYTHONPATH:-}"
+
+if [ -f "$PROJECT_ROOT/.env" ]; then
+  set -a
+  # shellcheck disable=SC1091
+  source "$PROJECT_ROOT/.env"
+  set +a
+fi
 
 # Run database migration
 "$PROJECT_ROOT/.venv/bin/airflow" db migrate

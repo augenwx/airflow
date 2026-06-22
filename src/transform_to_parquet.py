@@ -23,6 +23,13 @@ def load_json(path: str | Path | None = None) -> dict[str, Any]:
         return json.load(file)
 
 
+def first_present(payload: dict[str, Any], *keys: str) -> Any:
+    for key in keys:
+        if key in payload:
+            return payload[key]
+    return None
+
+
 def normalize_predictit(payload: dict[str, Any]) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Flatten PredictIt payload into market and contract tables."""
     extraction_ts = datetime.now(timezone.utc).isoformat()
@@ -32,34 +39,34 @@ def normalize_predictit(payload: dict[str, Any]) -> tuple[pd.DataFrame, pd.DataF
     contract_rows: list[dict[str, Any]] = []
 
     for market in markets:
-        market_id = market.get("id") or market.get("ID")
+        market_id = first_present(market, "id", "ID")
         market_rows.append(
             {
                 "market_id": market_id,
-                "market_name": market.get("name") or market.get("Name"),
-                "market_short_name": market.get("shortName") or market.get("ShortName"),
-                "market_url": market.get("url") or market.get("URL"),
-                "market_status": market.get("status") or market.get("Status"),
-                "market_time_stamp": market.get("timeStamp") or market.get("TimeStamp"),
+                "market_name": first_present(market, "name", "Name"),
+                "market_short_name": first_present(market, "shortName", "ShortName"),
+                "market_url": first_present(market, "url", "URL"),
+                "market_status": first_present(market, "status", "Status"),
+                "market_time_stamp": first_present(market, "timeStamp", "TimeStamp"),
                 "extraction_ts": extraction_ts,
             }
         )
 
-        for contract in market.get("contracts", []) or market.get("Contracts", []):
+        for contract in first_present(market, "contracts", "Contracts") or []:
             contract_rows.append(
                 {
                     "market_id": market_id,
-                    "contract_id": contract.get("id") or contract.get("ID"),
-                    "contract_name": contract.get("name") or contract.get("Name"),
-                    "contract_short_name": contract.get("shortName") or contract.get("ShortName"),
-                    "contract_status": contract.get("status") or contract.get("Status"),
-                    "last_trade_price": contract.get("lastTradePrice") or contract.get("LastTradePrice"),
-                    "best_buy_yes_cost": contract.get("bestBuyYesCost") or contract.get("BestBuyYesCost"),
-                    "best_buy_no_cost": contract.get("bestBuyNoCost") or contract.get("BestBuyNoCost"),
-                    "best_sell_yes_cost": contract.get("bestSellYesCost") or contract.get("BestSellYesCost"),
-                    "best_sell_no_cost": contract.get("bestSellNoCost") or contract.get("BestSellNoCost"),
-                    "last_close_price": contract.get("lastClosePrice") or contract.get("LastClosePrice"),
-                    "display_order": contract.get("displayOrder") or contract.get("DisplayOrder"),
+                    "contract_id": first_present(contract, "id", "ID"),
+                    "contract_name": first_present(contract, "name", "Name"),
+                    "contract_short_name": first_present(contract, "shortName", "ShortName"),
+                    "contract_status": first_present(contract, "status", "Status"),
+                    "last_trade_price": first_present(contract, "lastTradePrice", "LastTradePrice"),
+                    "best_buy_yes_cost": first_present(contract, "bestBuyYesCost", "BestBuyYesCost"),
+                    "best_buy_no_cost": first_present(contract, "bestBuyNoCost", "BestBuyNoCost"),
+                    "best_sell_yes_cost": first_present(contract, "bestSellYesCost", "BestSellYesCost"),
+                    "best_sell_no_cost": first_present(contract, "bestSellNoCost", "BestSellNoCost"),
+                    "last_close_price": first_present(contract, "lastClosePrice", "LastClosePrice"),
+                    "display_order": first_present(contract, "displayOrder", "DisplayOrder"),
                     "extraction_ts": extraction_ts,
                 }
             )

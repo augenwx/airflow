@@ -1,5 +1,5 @@
 predictit_dbt:
-  target: snowflake
+  target: "{{ env_var('DBT_TARGET', 'snowflake') }}"
   outputs:
     snowflake:
       type: snowflake
