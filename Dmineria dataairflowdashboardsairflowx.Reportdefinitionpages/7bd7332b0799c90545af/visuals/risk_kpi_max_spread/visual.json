@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "risk_kpi_max_spread",
+  "position": {
+    "x": 808,
+    "y": 88,
+    "z": 8,
+    "height": 82,
+    "width": 180,
+    "tabOrder": 8
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Max Spread Yes"
+                }
+              },
+              "queryRef": "_Measures.Max Spread Yes",
+              "nativeQueryRef": "Max Spread Yes"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "matrix_volatility",
+  "position": {
+    "x": 220,
+    "y": 110,
+    "z": 5000,
+    "height": 290,
+    "width": 660,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_volatility_analysis"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_volatility_analysis.contract_name",
+              "nativeQueryRef": "Contract"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_volatility_analysis"
+                    }
+                  },
+                  "Property": "window_days"
+                }
+              },
+              "queryRef": "mart_volatility_analysis.window_days",
+              "nativeQueryRef": "Window"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_volatility_analysis"
+                    }
+                  },
+                  "Property": "volatility_score"
+                }
+              },
+              "queryRef": "mart_volatility_analysis.volatility_score",
+              "nativeQueryRef": "Volatility Score"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_volatility_analysis"
+                    }
+                  },
+                  "Property": "stddev_price"
+                }
+              },
+              "queryRef": "mart_volatility_analysis.stddev_price",
+              "nativeQueryRef": "Std Dev"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_volatility_analysis"
+                    }
+                  },
+                  "Property": "price_range"
+                }
+              },
+              "queryRef": "mart_volatility_analysis.price_range",
+              "nativeQueryRef": "Price Range"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d4afd280c6c373d15755",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_volatility_analysis"
+              }
+            },
+            "Property": "contract_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "3e2fa5f4934abc10cd7e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_volatility_analysis"
+              }
+            },
+            "Property": "window_days"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "af8db3d2ca0b2002c457",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_volatility_analysis"
+              }
+            },
+            "Property": "volatility_score"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "67476134e19c91ec7784",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_volatility_analysis"
+              }
+            },
+            "Property": "stddev_price"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "74e09b0520c306e31840",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_volatility_analysis"
+              }
+            },
+            "Property": "price_range"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

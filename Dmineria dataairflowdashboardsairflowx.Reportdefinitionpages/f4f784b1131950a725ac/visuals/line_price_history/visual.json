@@ -1,0 +1,75 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "line_price_history",
+  "position": {
+    "x": 24,
+    "y": 190,
+    "z": 8,
+    "height": 270,
+    "width": 600,
+    "tabOrder": 8
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_price_trends"
+                    }
+                  },
+                  "Property": "snapshot_date"
+                }
+              },
+              "queryRef": "mart_price_trends.snapshot_date",
+              "nativeQueryRef": "snapshot_date",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_price_trends"
+                    }
+                  },
+                  "Property": "avg_last_trade_price"
+                }
+              },
+              "queryRef": "mart_price_trends.avg_last_trade_price",
+              "nativeQueryRef": "avg_last_trade_price"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_price_trends"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_price_trends.contract_name",
+              "nativeQueryRef": "contract_name"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

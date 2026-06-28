@@ -12,13 +12,16 @@ Al usar PBIP, en lugar de un archivo binario `.pbix` opaco, todo el modelo de da
 
 ## Visualizaciones Incluidas
 
-El reporte contiene dos páginas de análisis de los mercados de predicción de PredictIt:
+El reporte **PredictIt Analytics Dashboard** contiene cuatro páginas de análisis de los mercados de predicción de PredictIt:
 
-1.  **Overview**: KPI principales, distribución de probabilidades, contratos por mercado y variación de precios.
-2.  **Análisis de Precios**: Análisis en el tiempo (gráficos de líneas) y un gráfico de dispersión cruzando el precio actual vs. su variación (ganadores/perdedores).
+1.  **Executive Overview**: KPI principales, líderes, movimientos 24h, snapshot de mercado y anomalías.
+2.  **Historical Trends**: evolución histórica, momentum, promedios móviles y puntos de giro.
+3.  **Risk & Anomalies**: señales estadísticas, spreads, volatilidad y mapa de riesgo.
+4.  **Contract Detail**: detalle por contrato para drill-through con precio, promedios móviles, contexto de mercado y microestructura.
 
 ## Consideraciones Técnicas
 
-*   El modelo de datos lee directamente de `predictit.duckdb` vía ODBC.
+*   El modelo de datos lee directamente de `predictit.duckdb` vía ODBC usando el DSN `duckdb2` y el esquema `main_marts`.
+*   El modelo incluye dimensiones compartidas `dim_market`, `dim_contract` y `dim_date` para filtrar los marts sin relaciones many-to-many directas.
 *   Asegúrate de que la carga paralela ("Parallel loading of tables") esté deshabilitada en la configuración global de Power BI Desktop para evitar bloqueos del archivo de base de datos DuckDB al recargar.
 *   Cualquier ajuste de diseño (colores, fondos, estilo) debe realizarse a través de la interfaz de Power BI Desktop. Editar el archivo `page.json` manualmente puede resultar en errores de esquema.

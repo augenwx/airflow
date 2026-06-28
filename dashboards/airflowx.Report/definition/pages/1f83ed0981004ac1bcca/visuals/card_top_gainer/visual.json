@@ -1,0 +1,84 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "card_top_gainer",
+  "position": {
+    "x": 533.44947151543579,
+    "y": 0,
+    "z": 3000,
+    "height": 99.485753530209891,
+    "width": 190.39514899747064,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_top_movers"
+                    }
+                  },
+                  "Property": "Top Gainer Name"
+                }
+              },
+              "queryRef": "mart_top_movers.Top Gainer Name",
+              "nativeQueryRef": "Top Gainer 24H"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "b36dfe77eb9ab0813759",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_top_movers"
+              }
+            },
+            "Property": "Top Gainer Name"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

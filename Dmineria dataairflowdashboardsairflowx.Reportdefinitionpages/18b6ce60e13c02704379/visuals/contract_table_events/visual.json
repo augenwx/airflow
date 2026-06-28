@@ -1,0 +1,94 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "contract_table_events",
+  "position": {
+    "x": 24,
+    "y": 478,
+    "z": 12,
+    "height": 214,
+    "width": 390,
+    "tabOrder": 12
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_turning_points"
+                    }
+                  },
+                  "Property": "snapshot_date"
+                }
+              },
+              "queryRef": "mart_turning_points.snapshot_date",
+              "nativeQueryRef": "snapshot_date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_turning_points"
+                    }
+                  },
+                  "Property": "price_before"
+                }
+              },
+              "queryRef": "mart_turning_points.price_before",
+              "nativeQueryRef": "price_before"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_turning_points"
+                    }
+                  },
+                  "Property": "price_after"
+                }
+              },
+              "queryRef": "mart_turning_points.price_after",
+              "nativeQueryRef": "price_after"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_turning_points"
+                    }
+                  },
+                  "Property": "impact_pct"
+                }
+              },
+              "queryRef": "mart_turning_points.impact_pct",
+              "nativeQueryRef": "impact_pct"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_turning_points"
+                    }
+                  },
+                  "Property": "trend_direction"
+                }
+              },
+              "queryRef": "mart_turning_points.trend_direction",
+              "nativeQueryRef": "trend_direction"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

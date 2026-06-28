@@ -1,0 +1,196 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "table_movers",
+  "position": {
+    "x": 10,
+    "y": 410,
+    "z": 8000,
+    "height": 300,
+    "width": 620,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_top_movers"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_top_movers.contract_name",
+              "nativeQueryRef": "Contract"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_top_movers"
+                    }
+                  },
+                  "Property": "market_name"
+                }
+              },
+              "queryRef": "mart_top_movers.market_name",
+              "nativeQueryRef": "Market"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_top_movers"
+                    }
+                  },
+                  "Property": "price_now"
+                }
+              },
+              "queryRef": "mart_top_movers.price_now",
+              "nativeQueryRef": "Price Now"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_top_movers"
+                    }
+                  },
+                  "Property": "change_abs"
+                }
+              },
+              "queryRef": "mart_top_movers.change_abs",
+              "nativeQueryRef": "Change 24H"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_top_movers"
+                    }
+                  },
+                  "Property": "change_pct"
+                }
+              },
+              "queryRef": "mart_top_movers.change_pct",
+              "nativeQueryRef": "Change %"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_top_movers"
+                    }
+                  },
+                  "Property": "direction"
+                }
+              },
+              "queryRef": "mart_top_movers.direction",
+              "nativeQueryRef": "Direction"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "5a9ad9b60ae735d08450",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_top_movers"
+              }
+            },
+            "Property": "contract_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "3a93c520338aa9c1d040",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_top_movers"
+              }
+            },
+            "Property": "market_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "69fe310a0b36ccba4805",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_top_movers"
+              }
+            },
+            "Property": "price_now"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "310b59e8de22d2ae3d0b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_top_movers"
+              }
+            },
+            "Property": "change_abs"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2d5428f39b37e5801d66",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_top_movers"
+              }
+            },
+            "Property": "change_pct"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "137d6594b71615d8e425",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_top_movers"
+              }
+            },
+            "Property": "direction"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

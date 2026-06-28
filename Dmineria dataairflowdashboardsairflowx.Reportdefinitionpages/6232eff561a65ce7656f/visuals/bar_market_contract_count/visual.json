@@ -1,0 +1,57 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "bar_market_contract_count",
+  "position": {
+    "x": 24,
+    "y": 454,
+    "z": 15,
+    "height": 230,
+    "width": 390,
+    "tabOrder": 15
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_market_snapshot"
+                    }
+                  },
+                  "Property": "market_name"
+                }
+              },
+              "queryRef": "mart_market_snapshot.market_name",
+              "nativeQueryRef": "market_name",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_market_snapshot"
+                    }
+                  },
+                  "Property": "contract_count"
+                }
+              },
+              "queryRef": "mart_market_snapshot.contract_count",
+              "nativeQueryRef": "contract_count"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

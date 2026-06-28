@@ -4,12 +4,186 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 0,
+        "x": 1312.9457357723591,
         "y": 0
       },
-      "nodes": [],
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "fct_contract_prices",
+          "nodeLineageTag": "7f58a3c5-0662-45b7-9e24-064a1fef1e87",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 284,
+            "y": 0
+          },
+          "nodeIndex": "mart_anomaly_detection",
+          "nodeLineageTag": "faade2bd-bd2e-3f4a-5b6c-7d8e9f0a1b2c",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 0
+          },
+          "nodeIndex": "mart_candidate_momentum",
+          "nodeLineageTag": "b46c7d8e-9f0a-1b2c-3d4e-5f6a7b8c9d0e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 0
+          },
+          "nodeIndex": "mart_contract_leaders",
+          "nodeLineageTag": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 0
+          },
+          "nodeIndex": "mart_market_snapshot",
+          "nodeLineageTag": "e26cef6e-03e1-4376-ad75-c5c7fa59a27e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1420,
+            "y": 0
+          },
+          "nodeIndex": "mart_price_trends",
+          "nodeLineageTag": "02f74602-1956-457a-a85d-9e8c3bd8bbe8",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1704,
+            "y": 2
+          },
+          "nodeIndex": "mart_rolling_averages",
+          "nodeLineageTag": "da6e7f8a-9b0c-1d2e-3f4a-5b6c7d8e9f0a",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1988,
+            "y": 0
+          },
+          "nodeIndex": "mart_spread_analysis",
+          "nodeLineageTag": "dceb6a7b-7b8c-9d0e-1f2a-3b4c5d6e7f8a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2272,
+            "y": 0
+          },
+          "nodeIndex": "mart_top_movers",
+          "nodeLineageTag": "aa1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2556,
+            "y": 0
+          },
+          "nodeIndex": "mart_turning_points",
+          "nodeLineageTag": "bac89d0e-1f2a-3b4c-5d6e-7f8a9b0c1d2e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2840,
+            "y": 0
+          },
+          "nodeIndex": "mart_volatility_analysis",
+          "nodeLineageTag": "bacf2e3f-3f4a-5b6c-7d8e-9f0a1b2c3d4e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "dim_contract",
+          "nodeLineageTag": "2b222222-2222-4222-8222-222222222221",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "dim_date",
+          "nodeLineageTag": "2c333333-3333-4333-8333-333333333331",
+          "size": {
+            "height": 104,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {},
+          "nodeIndex": "dim_market",
+          "nodeLineageTag": "2a111111-1111-4111-8111-111111111111",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
       "name": "Todas las tablas",
-      "zoomValue": 100,
+      "zoomValue": 125.70207430874447,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,

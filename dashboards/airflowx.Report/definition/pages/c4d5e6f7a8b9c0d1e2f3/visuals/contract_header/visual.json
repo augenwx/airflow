@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "contract_header",
+  "position": {
+    "x": 190,
+    "y": 105,
+    "z": 1000,
+    "height": 120,
+    "width": 330,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_top_movers"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_top_movers.contract_name",
+              "nativeQueryRef": "Contract"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_top_movers"
+                    }
+                  },
+                  "Property": "market_name"
+                }
+              },
+              "queryRef": "mart_top_movers.market_name",
+              "nativeQueryRef": "Market"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_top_movers"
+                    }
+                  },
+                  "Property": "direction"
+                }
+              },
+              "queryRef": "mart_top_movers.direction",
+              "nativeQueryRef": "Direction"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

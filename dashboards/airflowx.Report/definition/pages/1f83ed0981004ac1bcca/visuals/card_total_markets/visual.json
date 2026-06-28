@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
   "name": "card_total_markets",
   "position": {
-    "x": 16,
+    "x": 240,
     "y": 10,
-    "z": 0,
-    "height": 120,
-    "width": 200,
-    "tabOrder": 0
+    "z": 1000,
+    "height": 100,
+    "width": 190,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "card",
@@ -20,13 +20,13 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "fct_contract_prices"
+                      "Entity": "mart_market_snapshot"
                     }
                   },
                   "Property": "Total Markets"
                 }
               },
-              "queryRef": "fct_contract_prices.Total Markets",
+              "queryRef": "mart_market_snapshot.Total Markets",
               "nativeQueryRef": "Total Markets"
             }
           ]

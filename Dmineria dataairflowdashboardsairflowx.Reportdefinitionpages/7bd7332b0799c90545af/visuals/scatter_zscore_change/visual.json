@@ -1,0 +1,76 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "scatter_zscore_change",
+  "position": {
+    "x": 24,
+    "y": 194,
+    "z": 10,
+    "height": 250,
+    "width": 410,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.contract_name",
+              "nativeQueryRef": "contract_name",
+              "active": true
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "change_24h"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.change_24h",
+              "nativeQueryRef": "change_24h",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "z_score"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.z_score",
+              "nativeQueryRef": "z_score"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

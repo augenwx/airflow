@@ -1,0 +1,120 @@
+table mart_turning_points
+	lineageTag: bac89d0e-1f2a-3b4c-5d6e-7f8a9b0c1d2e
+
+	column contract_id
+		dataType: string
+		lineageTag: cbd9ae1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f
+		summarizeBy: none
+		sourceColumn: contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_name
+		dataType: string
+		lineageTag: dcebf2a3-3b4c-5d6e-7f8a-9b0c1d2e3f4a
+		summarizeBy: none
+		sourceColumn: contract_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_id
+		dataType: string
+		lineageTag: edfc3b4c-4c5d-6e7f-8a9b-0c1d2e3f4a5b
+		summarizeBy: none
+		sourceColumn: market_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_name
+		dataType: string
+		lineageTag: fead4c5d-5d6e-7f8a-9b0c-1d2e3f4a5b6c
+		summarizeBy: none
+		sourceColumn: market_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column snapshot_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: afbe5d6e-6e7f-8a9b-0c1d-2e3f4a5b6c7d
+		summarizeBy: none
+		sourceColumn: snapshot_date
+
+		variation Variación
+			isDefault
+			relationship: 80f09607-6fb5-4597-95b6-6f26c7e75e7e
+			defaultHierarchy: LocalDateTable_ee8f1ce5-39a5-4d97-9560-e8f4cc22c36e.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column price_before
+		dataType: double
+		lineageTag: bacf6e7f-7f8a-9b0c-1d2e-3f4a5b6c7d8e
+		summarizeBy: sum
+		sourceColumn: price_before
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column price_after
+		dataType: double
+		lineageTag: cbda7f8a-8a9b-0c1d-2e3f-4a5b6c7d8e9f
+		summarizeBy: sum
+		sourceColumn: price_after
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column impact
+		dataType: double
+		lineageTag: dceb8a9b-9b0c-1d2e-3f4a-5b6c7d8e9f0a
+		summarizeBy: sum
+		sourceColumn: impact
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column impact_pct
+		dataType: double
+		lineageTag: edfc9b0c-0c1d-2e3f-4a5b-6c7d8e9f0a1b
+		summarizeBy: sum
+		sourceColumn: impact_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_significant
+		dataType: string
+		lineageTag: fead0c1d-1d2e-3f4a-5b6c-7d8e9f0a1b2c
+		summarizeBy: none
+		sourceColumn: is_significant
+
+		annotation SummarizationSetBy = Automatic
+
+	column trend_direction
+		dataType: string
+		lineageTag: afbe1d2e-2e3f-4a5b-6c7d-8e9f0a1b2c3d
+		summarizeBy: none
+		sourceColumn: trend_direction
+
+		annotation SummarizationSetBy = Automatic
+
+	partition mart_turning_points = m
+		mode: import
+		source =
+				let
+				    Origen = Odbc.DataSource("dsn=duckdb2", [HierarchicalNavigation=true]),
+				    predictit_Database = Origen{[Name="predictit",Kind="Database"]}[Data],
+				    main_marts_Schema = predictit_Database{[Name="main_marts",Kind="Schema"]}[Data],
+				    mart_turning_points_Table = main_marts_Schema{[Name="mart_turning_points",Kind="Table"]}[Data]
+				in
+				    mart_turning_points_Table
+
+	annotation PBI_ResultType = Table
+

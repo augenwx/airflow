@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "risk_kpi_avg_spread",
+  "position": {
+    "x": 612,
+    "y": 88,
+    "z": 7,
+    "height": 82,
+    "width": 180,
+    "tabOrder": 7
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Avg Spread Yes"
+                }
+              },
+              "queryRef": "_Measures.Avg Spread Yes",
+              "nativeQueryRef": "Avg Spread Yes"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

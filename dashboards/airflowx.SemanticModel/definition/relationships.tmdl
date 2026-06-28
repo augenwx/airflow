@@ -13,15 +13,80 @@ relationship 02dfcd91-5973-4add-8dc8-333a6ad315cc
 	fromColumn: mart_price_trends.snapshot_hour
 	toColumn: LocalDateTable_edd4f8ed-a1da-40a2-8a29-aee8e70d4801.Date
 
-relationship AutoDetected_4843398b-8d69-4d16-b391-10e59e5e0421
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
-	fromColumn: mart_market_snapshot.contract_id
-	toColumn: fct_contract_prices.contract_id
+relationship 958356ae-0084-4fa6-bf50-1e946455f0f9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: mart_price_trends.snapshot_date
+	toColumn: LocalDateTable_a5789f77-5637-472c-9fa7-ffc4aacee314.Date
 
-relationship AutoDetected_9d477ba8-8e61-415a-9d49-e389fbc60db3
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
+relationship 67f3038f-a9cd-4c28-a673-f267e93c8758
+	joinOnDateBehavior: datePartOnly
+	fromColumn: mart_candidate_momentum.extraction_ts
+	toColumn: LocalDateTable_b17b24ee-300a-4b9c-9c90-6a091379f543.Date
+
+relationship c21ca103-5f7a-4a67-80b6-e223d0a61459
+	joinOnDateBehavior: datePartOnly
+	fromColumn: mart_rolling_averages.snapshot_date
+	toColumn: LocalDateTable_87818a73-5bb3-458e-9abe-264ad93f5cc3.Date
+
+relationship 80f09607-6fb5-4597-95b6-6f26c7e75e7e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: mart_turning_points.snapshot_date
+	toColumn: LocalDateTable_ee8f1ce5-39a5-4d97-9560-e8f4cc22c36e.Date
+
+relationship 4b222222-2222-4222-8222-222222222221
+	fromColumn: dim_contract.market_id
+	toColumn: dim_market.market_id
+
+relationship 4b222222-2222-4222-8222-222222222222
+	fromColumn: mart_market_snapshot.contract_id
+	toColumn: dim_contract.contract_id
+
+relationship 4b222222-2222-4222-8222-222222222223
+	fromColumn: mart_top_movers.contract_id
+	toColumn: dim_contract.contract_id
+
+relationship 4b222222-2222-4222-8222-222222222224
+	fromColumn: mart_rolling_averages.contract_id
+	toColumn: dim_contract.contract_id
+
+relationship 4b222222-2222-4222-8222-222222222225
+	fromColumn: mart_anomaly_detection.contract_id
+	toColumn: dim_contract.contract_id
+
+relationship 4b222222-2222-4222-8222-222222222226
+	fromColumn: mart_volatility_analysis.contract_id
+	toColumn: dim_contract.contract_id
+
+relationship 4b222222-2222-4222-8222-222222222227
+	fromColumn: mart_spread_analysis.contract_id
+	toColumn: dim_contract.contract_id
+
+relationship 4b222222-2222-4222-8222-222222222228
 	fromColumn: mart_price_trends.contract_id
-	toColumn: fct_contract_prices.contract_id
+	toColumn: dim_contract.contract_id
+
+relationship 4c333333-3333-4333-8333-333333333331
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fct_contract_prices.extraction_ts
+	toColumn: dim_date.date
+
+relationship 4c333333-3333-4333-8333-333333333332
+	joinOnDateBehavior: datePartOnly
+	fromColumn: mart_market_snapshot.extraction_ts
+	toColumn: dim_date.date
+
+relationship 4c333333-3333-4333-8333-333333333333
+	joinOnDateBehavior: datePartOnly
+	fromColumn: mart_price_trends.snapshot_date
+	toColumn: dim_date.date
+
+relationship 4c333333-3333-4333-8333-333333333334
+	joinOnDateBehavior: datePartOnly
+	fromColumn: mart_rolling_averages.snapshot_date
+	toColumn: dim_date.date
+
+relationship 4c333333-3333-4333-8333-333333333335
+	joinOnDateBehavior: datePartOnly
+	fromColumn: mart_turning_points.snapshot_date
+	toColumn: dim_date.date
 

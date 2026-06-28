@@ -1,0 +1,97 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "table_momentum",
+  "position": {
+    "x": 890,
+    "y": 110,
+    "z": 9000,
+    "height": 290,
+    "width": 380,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_candidate_momentum"
+                    }
+                  },
+                  "Property": "momentum_rank"
+                }
+              },
+              "queryRef": "mart_candidate_momentum.momentum_rank",
+              "nativeQueryRef": "Rank"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_candidate_momentum"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_candidate_momentum.contract_name",
+              "nativeQueryRef": "Candidate"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_candidate_momentum"
+                    }
+                  },
+                  "Property": "avg_daily_change"
+                }
+              },
+              "queryRef": "mart_candidate_momentum.avg_daily_change",
+              "nativeQueryRef": "Avg Daily Change"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_candidate_momentum"
+                    }
+                  },
+                  "Property": "momentum_direction"
+                }
+              },
+              "queryRef": "mart_candidate_momentum.momentum_direction",
+              "nativeQueryRef": "Momentum"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "mart_candidate_momentum"
+                  }
+                },
+                "Property": "contract_name"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

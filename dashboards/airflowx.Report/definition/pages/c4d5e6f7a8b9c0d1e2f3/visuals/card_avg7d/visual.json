@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "card_avg7d",
+  "position": {
+    "x": 1135,
+    "y": 105,
+    "z": 1400,
+    "height": 120,
+    "width": 185,
+    "tabOrder": 1400
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_rolling_averages"
+                    }
+                  },
+                  "Property": "Avg 7d"
+                }
+              },
+              "queryRef": "mart_rolling_averages.Avg 7d",
+              "nativeQueryRef": "Avg 7d"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,24 @@
+table dim_date
+	lineageTag: 2c333333-3333-4333-8333-333333333331
+
+	column date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 2c333333-3333-4333-8333-333333333332
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				    dim_date_Table = Odbc.Query("dsn=duckdb2", "select distinct cast(extraction_ts as date) as date from main_marts.fct_contract_prices union select distinct cast(extraction_ts as date) as date from main_marts.mart_market_snapshot union select distinct cast(snapshot_date as date) as date from main_marts.mart_price_trends union select distinct cast(snapshot_date as date) as date from main_marts.mart_rolling_averages union select distinct cast(snapshot_date as date) as date from main_marts.mart_turning_points")
+				in
+				    dim_date_Table
+
+	annotation PBI_ResultType = Table
+

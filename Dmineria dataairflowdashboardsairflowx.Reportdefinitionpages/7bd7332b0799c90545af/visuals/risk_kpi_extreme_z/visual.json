@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "risk_kpi_extreme_z",
+  "position": {
+    "x": 220,
+    "y": 88,
+    "z": 5,
+    "height": 82,
+    "width": 180,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Extreme Z Score"
+                }
+              },
+              "queryRef": "_Measures.Extreme Z Score",
+              "nativeQueryRef": "Extreme Z Score"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

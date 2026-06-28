@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "table_market_context",
+  "position": {
+    "x": 730,
+    "y": 605,
+    "z": 3100,
+    "height": 210,
+    "width": 370,
+    "tabOrder": 3100
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_market_snapshot"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_market_snapshot.contract_name",
+              "nativeQueryRef": "Contract"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_market_snapshot"
+                    }
+                  },
+                  "Property": "last_trade_price"
+                }
+              },
+              "queryRef": "mart_market_snapshot.last_trade_price",
+              "nativeQueryRef": "Last Price"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

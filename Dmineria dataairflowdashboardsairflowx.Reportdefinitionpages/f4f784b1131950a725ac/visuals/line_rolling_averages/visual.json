@@ -1,0 +1,99 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "line_rolling_averages",
+  "position": {
+    "x": 644,
+    "y": 190,
+    "z": 9,
+    "height": 270,
+    "width": 612,
+    "tabOrder": 9
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_rolling_averages"
+                    }
+                  },
+                  "Property": "snapshot_date"
+                }
+              },
+              "queryRef": "mart_rolling_averages.snapshot_date",
+              "nativeQueryRef": "snapshot_date",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_rolling_averages"
+                    }
+                  },
+                  "Property": "close_price"
+                }
+              },
+              "queryRef": "mart_rolling_averages.close_price",
+              "nativeQueryRef": "close_price"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_rolling_averages"
+                    }
+                  },
+                  "Property": "avg_7d"
+                }
+              },
+              "queryRef": "mart_rolling_averages.avg_7d",
+              "nativeQueryRef": "avg_7d"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_rolling_averages"
+                    }
+                  },
+                  "Property": "avg_14d"
+                }
+              },
+              "queryRef": "mart_rolling_averages.avg_14d",
+              "nativeQueryRef": "avg_14d"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_rolling_averages"
+                    }
+                  },
+                  "Property": "avg_30d"
+                }
+              },
+              "queryRef": "mart_rolling_averages.avg_30d",
+              "nativeQueryRef": "avg_30d"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

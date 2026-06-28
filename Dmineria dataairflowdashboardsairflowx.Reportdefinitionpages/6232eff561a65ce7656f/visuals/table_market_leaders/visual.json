@@ -1,0 +1,80 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "table_market_leaders",
+  "position": {
+    "x": 840,
+    "y": 196,
+    "z": 14,
+    "height": 235,
+    "width": 416,
+    "tabOrder": 14
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_contract_leaders"
+                    }
+                  },
+                  "Property": "market_name"
+                }
+              },
+              "queryRef": "mart_contract_leaders.market_name",
+              "nativeQueryRef": "market_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_contract_leaders"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_contract_leaders.contract_name",
+              "nativeQueryRef": "contract_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_contract_leaders"
+                    }
+                  },
+                  "Property": "last_trade_price"
+                }
+              },
+              "queryRef": "mart_contract_leaders.last_trade_price",
+              "nativeQueryRef": "last_trade_price"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_contract_leaders"
+                    }
+                  },
+                  "Property": "price_change_abs"
+                }
+              },
+              "queryRef": "mart_contract_leaders.price_change_abs",
+              "nativeQueryRef": "price_change_abs"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

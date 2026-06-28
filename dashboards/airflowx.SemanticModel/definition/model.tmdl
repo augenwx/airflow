@@ -9,7 +9,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["fct_contract_prices","mart_market_snapshot","mart_price_trends"]
+annotation PBI_QueryOrder = ["dim_market","dim_contract","dim_date","fct_contract_prices","mart_market_snapshot","mart_price_trends","mart_anomaly_detection","mart_candidate_momentum","mart_contract_leaders","mart_rolling_averages","mart_spread_analysis","mart_top_movers","mart_turning_points","mart_volatility_analysis"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -20,6 +20,21 @@ ref table mart_market_snapshot
 ref table LocalDateTable_c133f654-8c05-4631-9df8-16657601e6f8
 ref table mart_price_trends
 ref table LocalDateTable_edd4f8ed-a1da-40a2-8a29-aee8e70d4801
+ref table mart_anomaly_detection
+ref table mart_candidate_momentum
+ref table mart_contract_leaders
+ref table mart_rolling_averages
+ref table mart_spread_analysis
+ref table mart_top_movers
+ref table mart_turning_points
+ref table mart_volatility_analysis
+ref table LocalDateTable_a5789f77-5637-472c-9fa7-ffc4aacee314
+ref table LocalDateTable_b17b24ee-300a-4b9c-9c90-6a091379f543
+ref table LocalDateTable_87818a73-5bb3-458e-9abe-264ad93f5cc3
+ref table LocalDateTable_ee8f1ce5-39a5-4d97-9560-e8f4cc22c36e
+ref table dim_market
+ref table dim_contract
+ref table dim_date
 
 ref cultureInfo es-ES
 

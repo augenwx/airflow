@@ -1,0 +1,109 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "bar_leaders",
+  "position": {
+    "x": 10,
+    "y": 120,
+    "z": 6000,
+    "height": 280,
+    "width": 620,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_contract_leaders"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_contract_leaders.contract_name",
+              "nativeQueryRef": "Contract",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_contract_leaders"
+                    }
+                  },
+                  "Property": "Leader Price"
+                }
+              },
+              "queryRef": "mart_contract_leaders.Leader Price",
+              "nativeQueryRef": "Price / Probability"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "dataPoint": [
+        {
+          "properties": {}
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "890d420419c25b0606ec",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_contract_leaders"
+              }
+            },
+            "Property": "contract_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "2d8c6d341c84dbb7b14a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_contract_leaders"
+              }
+            },
+            "Property": "Leader Price"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

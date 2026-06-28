@@ -1,0 +1,136 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "table_anomaly_master",
+  "position": {
+    "x": 24,
+    "y": 466,
+    "z": 13,
+    "height": 226,
+    "width": 1232,
+    "tabOrder": 13
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.contract_name",
+              "nativeQueryRef": "contract_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "market_name"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.market_name",
+              "nativeQueryRef": "market_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "current_price"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.current_price",
+              "nativeQueryRef": "current_price"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "avg_price_30d"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.avg_price_30d",
+              "nativeQueryRef": "avg_price_30d"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "z_score"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.z_score",
+              "nativeQueryRef": "z_score"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "is_anomaly"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.is_anomaly",
+              "nativeQueryRef": "is_anomaly"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "signal_type"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.signal_type",
+              "nativeQueryRef": "signal_type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "signal_strength"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.signal_strength",
+              "nativeQueryRef": "signal_strength"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

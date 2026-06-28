@@ -6,7 +6,10 @@ export PROJECT_ROOT="/mnt/d/mineria data/airflow"
 export AIRFLOW_HOME="$PROJECT_ROOT/airflow_home"
 export PYTHONPATH="$PROJECT_ROOT/src:${PYTHONPATH:-}"
 
-# Run database migration
+# Disable example DAGs globally via environment variable
+export AIRFLOW__CORE__LOAD_EXAMPLES="False"
+
+# Run database migration (or init)
 "$PROJECT_ROOT/.venv/bin/airflow" db migrate
 
 # Create Admin User
@@ -22,4 +25,4 @@ export PYTHONPATH="$PROJECT_ROOT/src:${PYTHONPATH:-}"
 mkdir -p "$AIRFLOW_HOME/dags"
 cp "$PROJECT_ROOT/dags/predictit_dag.py" "$AIRFLOW_HOME/dags/predictit_dag.py"
 
-echo "Airflow successfully initialized!"
+echo "Airflow successfully initialized without example DAGs!"

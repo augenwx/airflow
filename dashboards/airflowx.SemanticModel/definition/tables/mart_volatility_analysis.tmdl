@@ -1,0 +1,131 @@
+table mart_volatility_analysis
+	lineageTag: bacf2e3f-3f4a-5b6c-7d8e-9f0a1b2c3d4e
+
+	measure 'Avg Volatility' = AVERAGE(mart_volatility_analysis[volatility_score])
+		formatString: 0.00
+		lineageTag: cbda3f4a-4a5b-6c7d-8e9f-0a1b2c3d4e5f
+
+	measure 'Max Volatility Contract' = CALCULATE(MAX(mart_volatility_analysis[contract_name]), TOPN(1, ALL(mart_volatility_analysis), mart_volatility_analysis[volatility_score], DESC))
+		lineageTag: dceb4a5b-5b6c-7d8e-9f0a-1b2c3d4e5f6a
+
+	measure 'Volatilidad Máxima 30d' = MAXX(FILTER(mart_volatility_analysis, mart_volatility_analysis[window_days] = 30), mart_volatility_analysis[volatility_score])
+		formatString: 0.000
+		lineageTag: 3d444444-4444-4444-8444-444444444441
+
+	measure 'Volatility Score' = MAX(mart_volatility_analysis[volatility_score])
+		formatString: 0.000
+		lineageTag: 3d444444-4444-4444-8444-444444444442
+
+	column contract_id
+		dataType: string
+		lineageTag: edfc5b6c-6c7d-8e9f-0a1b-2c3d4e5f6a7b
+		summarizeBy: none
+		sourceColumn: contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_name
+		dataType: string
+		lineageTag: fead6c7d-7d8e-9f0a-1b2c-3d4e5f6a7b8c
+		summarizeBy: none
+		sourceColumn: contract_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_id
+		dataType: string
+		lineageTag: afbe7d8e-8e9f-0a1b-2c3d-4e5f6a7b8c9d
+		summarizeBy: none
+		sourceColumn: market_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_name
+		dataType: string
+		lineageTag: bacf8e9f-9f0a-1b2c-3d4e-5f6a7b8c9d0e
+		summarizeBy: none
+		sourceColumn: market_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column window_days
+		dataType: int64
+		formatString: 0
+		lineageTag: cbda9f0a-0a1b-2c3d-4e5f-6a7b8c9d0e1f
+		summarizeBy: sum
+		sourceColumn: window_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_price
+		dataType: double
+		lineageTag: dceb0a1b-1b2c-3d4e-5f6a-7b8c9d0e1f2a
+		summarizeBy: sum
+		sourceColumn: avg_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column stddev_price
+		dataType: double
+		lineageTag: edfc1b2c-2c3d-4e5f-6a7b-8c9d0e1f2a3b
+		summarizeBy: sum
+		sourceColumn: stddev_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column volatility_score
+		dataType: double
+		lineageTag: fead2c3d-3d4e-5f6a-7b8c-9d0e1f2a3b4c
+		summarizeBy: sum
+		sourceColumn: volatility_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column price_range
+		dataType: double
+		lineageTag: afbe3d4e-4e5f-6a7b-8c9d-0e1f2a3b4c5d
+		summarizeBy: sum
+		sourceColumn: price_range
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column current_price
+		dataType: double
+		lineageTag: bacf4e5f-5f6a-7b8c-9d0e-1f2a3b4c5d6e
+		summarizeBy: sum
+		sourceColumn: current_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column extraction_ts
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: cbda5f6a-6a7b-8c9d-0e1f-2a3b4c5d6e7f
+		summarizeBy: none
+		sourceColumn: extraction_ts
+
+		annotation SummarizationSetBy = Automatic
+
+	partition mart_volatility_analysis = m
+		mode: import
+		source =
+				let
+				    Origen = Odbc.DataSource("dsn=duckdb2", [HierarchicalNavigation=true]),
+				    predictit_Database = Origen{[Name="predictit",Kind="Database"]}[Data],
+				    main_marts_Schema = predictit_Database{[Name="main_marts",Kind="Schema"]}[Data],
+				    mart_volatility_analysis_Table = main_marts_Schema{[Name="mart_volatility_analysis",Kind="Table"]}[Data]
+				in
+				    mart_volatility_analysis_Table
+
+	annotation PBI_ResultType = Table
+

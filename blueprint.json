@@ -1,0 +1,993 @@
+{
+  "project": {
+    "name": "PredictIt Executive Analytics Dashboard",
+    "version": "1.0.0",
+    "language": "es",
+    "description": "Blueprint completo para construir un dashboard de Power BI sobre los marts de PredictIt almacenados en DuckDB/Parquet. Este archivo describe modelo, medidas DAX, páginas, visuales, layouts, filtros, colores y reglas de diseño.",
+    "important_note": "Este JSON NO es un archivo PBIX/PBIP oficial importable directamente por Power BI. Es una especificación técnica para replicar el dashboard manualmente o para usarla como base en automatización con PBIP/TMDL/Tabular Editor/Fabric APIs."
+  },
+  "data_source": {
+    "type": "DuckDB via ODBC",
+    "recommended_connection_name": "duckdb_predictit",
+    "database_file_example": "D:/mineria data/airflow/data/warehouse/predictit.duckdb",
+    "schema": "main_marts",
+    "load_mode_recommendation": "Import",
+    "refresh_recommendation": "Actualizar después de cada corrida estable de Airflow. Evitar que Power BI lea el mismo archivo .duckdb mientras Airflow lo escribe.",
+    "tables_to_load": [
+      "main_marts.fct_contract_prices",
+      "main_marts.mart_market_snapshot",
+      "main_marts.mart_contract_leaders",
+      "main_marts.mart_top_movers",
+      "main_marts.mart_price_trends",
+      "main_marts.mart_rolling_averages",
+      "main_marts.mart_candidate_momentum",
+      "main_marts.mart_turning_points",
+      "main_marts.mart_volatility_analysis",
+      "main_marts.mart_spread_analysis",
+      "main_marts.mart_anomaly_detection"
+    ],
+    "recommended_power_query_steps": [
+      "Conectar mediante ODBC al DSN duckdb_predictit.",
+      "Cargar todas las tablas del esquema main_marts.",
+      "Renombrar tablas para presentación: quitar prefijos fct_ y mart_ si se desea.",
+      "Verificar tipos: extraction_ts como Date/Time, snapshot_date como Date, precios/spreads/z_score como Decimal Number, is_anomaly como True/False.",
+      "Crear dimensiones dim_market, dim_contract y dim_date en Power Query o DAX."
+    ]
+  },
+  "theme": {
+    "name": "Dark Executive BI",
+    "canvas": {
+      "width": 1280,
+      "height": 720,
+      "background": "#0B1020"
+    },
+    "colors": {
+      "background": "#0B1020",
+      "panel": "#111827",
+      "panel_alt": "#172033",
+      "border": "#253047",
+      "text_primary": "#F8FAFC",
+      "text_secondary": "#CBD5E1",
+      "muted": "#94A3B8",
+      "accent_blue": "#38BDF8",
+      "accent_green": "#22C55E",
+      "accent_red": "#EF4444",
+      "accent_orange": "#F97316",
+      "accent_yellow": "#EAB308",
+      "accent_purple": "#A855F7"
+    },
+    "fonts": {
+      "title": "Segoe UI Semibold",
+      "body": "Segoe UI",
+      "number": "Segoe UI Semibold"
+    },
+    "formatting_rules": {
+      "positive_change": "#22C55E",
+      "negative_change": "#EF4444",
+      "neutral": "#94A3B8",
+      "anomaly_true": "#EF4444",
+      "anomaly_false": "#22C55E",
+      "high_risk": "#EF4444",
+      "medium_risk": "#F97316",
+      "low_risk": "#22C55E"
+    }
+  },
+  "model": {
+    "recommended_star_schema": {
+      "fact_tables": [
+        "fct_contract_prices"
+      ],
+      "mart_tables": [
+        "mart_market_snapshot",
+        "mart_contract_leaders",
+        "mart_top_movers",
+        "mart_price_trends",
+        "mart_rolling_averages",
+        "mart_candidate_momentum",
+        "mart_turning_points",
+        "mart_volatility_analysis",
+        "mart_spread_analysis",
+        "mart_anomaly_detection"
+      ],
+      "dimensions_to_create": [
+        {
+          "name": "dim_market",
+          "source_logic": "UNION DISTINCT market_id, market_name desde todos los marts donde existan esos campos.",
+          "columns": ["market_id", "market_name"]
+        },
+        {
+          "name": "dim_contract",
+          "source_logic": "UNION DISTINCT contract_id, contract_name, market_id, market_name desde todos los marts donde existan esos campos.",
+          "columns": ["contract_id", "contract_name", "market_id", "market_name"]
+        },
+        {
+          "name": "dim_date",
+          "source_logic": "CALENDAR desde MIN fecha de fct_contract_prices[extraction_ts] hasta MAX fecha de fct_contract_prices[extraction_ts].",
+          "columns": ["date", "year", "quarter", "month", "month_name", "day", "weekday", "is_weekend"]
+        }
+      ]
+    },
+    "relationships": [
+      {
+        "from": "dim_market[market_id]",
+        "to": "mart_market_snapshot[market_id]",
+        "cardinality": "one-to-many",
+        "filter_direction": "single"
+      },
+      {
+        "from": "dim_market[market_id]",
+        "to": "mart_contract_leaders[market_id]",
+        "cardinality": "one-to-many",
+        "filter_direction": "single"
+      },
+      {
+        "from": "dim_market[market_id]",
+        "to": "mart_top_movers[market_id]",
+        "cardinality": "one-to-many",
+        "filter_direction": "single"
+      },
+      {
+        "from": "dim_market[market_id]",
+        "to": "mart_anomaly_detection[market_id]",
+        "cardinality": "one-to-many",
+        "filter_direction": "single"
+      },
+      {
+        "from": "dim_market[market_id]",
+        "to": "mart_volatility_analysis[market_id]",
+        "cardinality": "one-to-many",
+        "filter_direction": "single"
+      },
+      {
+        "from": "dim_market[market_id]",
+        "to": "mart_spread_analysis[market_id]",
+        "cardinality": "one-to-many",
+        "filter_direction": "single"
+      },
+      {
+        "from": "dim_contract[contract_id]",
+        "to": "fct_contract_prices[contract_id]",
+        "cardinality": "one-to-many",
+        "filter_direction": "single"
+      },
+      {
+        "from": "dim_contract[contract_id]",
+        "to": "mart_price_trends[contract_id]",
+        "cardinality": "one-to-many",
+        "filter_direction": "single"
+      },
+      {
+        "from": "dim_contract[contract_id]",
+        "to": "mart_rolling_averages[contract_id]",
+        "cardinality": "one-to-many",
+        "filter_direction": "single"
+      },
+      {
+        "from": "dim_contract[contract_id]",
+        "to": "mart_candidate_momentum[contract_id]",
+        "cardinality": "one-to-many",
+        "filter_direction": "single"
+      },
+      {
+        "from": "dim_contract[contract_id]",
+        "to": "mart_turning_points[contract_id]",
+        "cardinality": "one-to-many",
+        "filter_direction": "single"
+      },
+      {
+        "from": "dim_date[date]",
+        "to": "mart_price_trends[snapshot_date]",
+        "cardinality": "one-to-many",
+        "filter_direction": "single"
+      },
+      {
+        "from": "dim_date[date]",
+        "to": "mart_rolling_averages[snapshot_date]",
+        "cardinality": "one-to-many",
+        "filter_direction": "single"
+      },
+      {
+        "from": "dim_date[date]",
+        "to": "mart_turning_points[snapshot_date]",
+        "cardinality": "one-to-many",
+        "filter_direction": "single"
+      }
+    ],
+    "avoid_relationships": [
+      "No relacionar mart_top_movers directamente con mart_contract_leaders.",
+      "No relacionar mart_anomaly_detection directamente con mart_volatility_analysis.",
+      "No crear relaciones many-to-many si se puede resolver mediante dim_market y dim_contract.",
+      "No conectar todos los marts entre sí por contract_name; usar contract_id."
+    ]
+  },
+  "dax_measures": [
+    {
+      "name": "Total Markets",
+      "table": "_Measures",
+      "expression": "DISTINCTCOUNT(mart_market_snapshot[market_id])",
+      "format": "#,0",
+      "description": "Cantidad de mercados activos en el último snapshot cargado."
+    },
+    {
+      "name": "Total Contracts",
+      "table": "_Measures",
+      "expression": "DISTINCTCOUNT(mart_market_snapshot[contract_id])",
+      "format": "#,0",
+      "description": "Cantidad de contratos activos en el último snapshot cargado."
+    },
+    {
+      "name": "Avg Current Price",
+      "table": "_Measures",
+      "expression": "AVERAGE(mart_market_snapshot[last_trade_price])",
+      "format": "0.00%",
+      "description": "Precio promedio actual."
+    },
+    {
+      "name": "Max 24h Gain",
+      "table": "_Measures",
+      "expression": "MAX(mart_top_movers[change_pct])",
+      "format": "+0.00%;-0.00%;0.00%",
+      "description": "Mayor cambio positivo de 24 horas."
+    },
+    {
+      "name": "Max 24h Loss",
+      "table": "_Measures",
+      "expression": "MIN(mart_top_movers[change_pct])",
+      "format": "+0.00%;-0.00%;0.00%",
+      "description": "Mayor caída de 24 horas."
+    },
+    {
+      "name": "Active Anomalies",
+      "table": "_Measures",
+      "expression": "COUNTROWS(FILTER(mart_anomaly_detection, mart_anomaly_detection[is_anomaly] = TRUE()))",
+      "format": "#,0",
+      "description": "Número de anomalías activas detectadas."
+    },
+    {
+      "name": "Avg Spread Yes",
+      "table": "_Measures",
+      "expression": "AVERAGE(mart_spread_analysis[current_spread_yes])",
+      "format": "0.00%",
+      "description": "Spread YES promedio actual."
+    },
+    {
+      "name": "Max Spread Yes",
+      "table": "_Measures",
+      "expression": "MAX(mart_spread_analysis[current_spread_yes])",
+      "format": "0.00%",
+      "description": "Spread YES máximo actual."
+    },
+    {
+      "name": "Avg Volatility Score",
+      "table": "_Measures",
+      "expression": "AVERAGE(mart_volatility_analysis[volatility_score])",
+      "format": "0.000",
+      "description": "Score promedio de volatilidad."
+    },
+    {
+      "name": "Extreme Z Score",
+      "table": "_Measures",
+      "expression": "MAXX(mart_anomaly_detection, ABS(mart_anomaly_detection[z_score]))",
+      "format": "0.00",
+      "description": "Z-score extremo absoluto."
+    },
+    {
+      "name": "Avg 7D",
+      "table": "_Measures",
+      "expression": "AVERAGE(mart_rolling_averages[avg_7d])",
+      "format": "0.00%",
+      "description": "Promedio móvil de 7 días."
+    },
+    {
+      "name": "Avg 14D",
+      "table": "_Measures",
+      "expression": "AVERAGE(mart_rolling_averages[avg_14d])",
+      "format": "0.00%",
+      "description": "Promedio móvil de 14 días."
+    },
+    {
+      "name": "Avg 30D",
+      "table": "_Measures",
+      "expression": "AVERAGE(mart_rolling_averages[avg_30d])",
+      "format": "0.00%",
+      "description": "Promedio móvil de 30 días."
+    },
+    {
+      "name": "Current Contract Price",
+      "table": "_Measures",
+      "expression": "MAX(mart_market_snapshot[last_trade_price])",
+      "format": "0.00%",
+      "description": "Precio actual del contrato seleccionado."
+    },
+    {
+      "name": "Contract Change 24h",
+      "table": "_Measures",
+      "expression": "MAX(mart_top_movers[change_pct])",
+      "format": "+0.00%;-0.00%;0.00%",
+      "description": "Cambio 24h del contrato seleccionado."
+    },
+    {
+      "name": "Observation Count",
+      "table": "_Measures",
+      "expression": "SUM(mart_price_trends[observations])",
+      "format": "#,0",
+      "description": "Número de observaciones agregadas."
+    },
+    {
+      "name": "Significant Turning Points",
+      "table": "_Measures",
+      "expression": "COUNTROWS(FILTER(mart_turning_points, mart_turning_points[is_significant] = TRUE()))",
+      "format": "#,0",
+      "description": "Cantidad de puntos de giro significativos."
+    },
+    {
+      "name": "Liquidity Risk Score",
+      "table": "_Measures",
+      "expression": "AVERAGE(mart_spread_analysis[spread_volatility_ratio])",
+      "format": "0.00",
+      "description": "Indicador agregado de riesgo de liquidez basado en spread/volatilidad."
+    }
+  ],
+  "calculated_columns": [
+    {
+      "table": "mart_top_movers",
+      "name": "Change Direction Label",
+      "expression": "IF(mart_top_movers[change_pct] > 0, \"GAINER\", IF(mart_top_movers[change_pct] < 0, \"LOSER\", \"FLAT\"))"
+    },
+    {
+      "table": "mart_anomaly_detection",
+      "name": "Anomaly Label",
+      "expression": "IF(mart_anomaly_detection[is_anomaly] = TRUE(), \"ANOMALY\", \"NORMAL\")"
+    },
+    {
+      "table": "mart_volatility_analysis",
+      "name": "Risk Bucket",
+      "expression": "SWITCH(TRUE(), mart_volatility_analysis[volatility_score] >= 0.80, \"High\", mart_volatility_analysis[volatility_score] >= 0.50, \"Medium\", \"Low\")"
+    }
+  ],
+  "pages": [
+    {
+      "page_id": "page_01_executive_overview",
+      "name": "Executive Overview",
+      "purpose": "Vista ejecutiva de estado actual: mercados, contratos, precio promedio, movimientos 24h, anomalías, líderes y liquidez.",
+      "canvas": {"width": 1280, "height": 720, "background": "#0B1020"},
+      "filters": [
+        {"type": "slicer", "field": "dim_market[market_name]", "label": "Mercado", "mode": "dropdown"},
+        {"type": "slicer", "field": "dim_contract[contract_name]", "label": "Contrato", "mode": "dropdown"},
+        {"type": "slicer", "field": "mart_top_movers[direction]", "label": "Dirección", "mode": "button"}
+      ],
+      "visuals": [
+        {
+          "id": "exec_title",
+          "type": "text_box",
+          "title": "PredictIt Executive Overview",
+          "subtitle": "Estado actual de mercados, contratos, movimientos y anomalías",
+          "position": {"x": 24, "y": 18, "w": 780, "h": 52},
+          "format": {"font_size": 24, "font_color": "#F8FAFC", "background": "transparent"}
+        },
+        {
+          "id": "exec_last_refresh",
+          "type": "card",
+          "title": "Último snapshot",
+          "fields": [{"table": "mart_market_snapshot", "column": "extraction_ts", "aggregation": "max"}],
+          "position": {"x": 1030, "y": 18, "w": 226, "h": 52},
+          "format": {"display_units": "none", "background": "#111827", "border": "#253047"}
+        },
+        {
+          "id": "kpi_total_markets",
+          "type": "card",
+          "title": "Mercados",
+          "measure": "Total Markets",
+          "position": {"x": 24, "y": 88, "w": 150, "h": 86},
+          "format": {"accent": "#38BDF8", "category_label": true}
+        },
+        {
+          "id": "kpi_total_contracts",
+          "type": "card",
+          "title": "Contratos",
+          "measure": "Total Contracts",
+          "position": {"x": 186, "y": 88, "w": 150, "h": 86},
+          "format": {"accent": "#A855F7"}
+        },
+        {
+          "id": "kpi_avg_price",
+          "type": "card",
+          "title": "Precio prom.",
+          "measure": "Avg Current Price",
+          "position": {"x": 348, "y": 88, "w": 150, "h": 86},
+          "format": {"accent": "#EAB308"}
+        },
+        {
+          "id": "kpi_gain",
+          "type": "card",
+          "title": "Mayor gainer 24h",
+          "measure": "Max 24h Gain",
+          "position": {"x": 510, "y": 88, "w": 170, "h": 86},
+          "format": {"accent": "#22C55E", "conditional_color": "positive_change"}
+        },
+        {
+          "id": "kpi_loss",
+          "type": "card",
+          "title": "Mayor loser 24h",
+          "measure": "Max 24h Loss",
+          "position": {"x": 692, "y": 88, "w": 170, "h": 86},
+          "format": {"accent": "#EF4444", "conditional_color": "negative_change"}
+        },
+        {
+          "id": "kpi_anomalies",
+          "type": "card",
+          "title": "Anomalías activas",
+          "measure": "Active Anomalies",
+          "position": {"x": 874, "y": 88, "w": 170, "h": 86},
+          "format": {"accent": "#F97316", "conditional_color": "anomaly_true"}
+        },
+        {
+          "id": "kpi_avg_spread",
+          "type": "card",
+          "title": "Spread prom.",
+          "measure": "Avg Spread Yes",
+          "position": {"x": 1056, "y": 88, "w": 200, "h": 86},
+          "format": {"accent": "#38BDF8"}
+        },
+        {
+          "id": "bar_top_gainers",
+          "type": "bar_chart",
+          "title": "Top Gainers 24h",
+          "fields": {
+            "axis": "mart_top_movers[contract_name]",
+            "values": "mart_top_movers[change_pct]",
+            "tooltip": ["mart_top_movers[market_name]", "mart_top_movers[price_now]", "mart_top_movers[price_24h_ago]"]
+          },
+          "filters": [{"field": "mart_top_movers[direction]", "operator": "=", "value": "GAINER"}],
+          "sort": {"by": "mart_top_movers[change_pct]", "direction": "desc"},
+          "top_n": 8,
+          "position": {"x": 24, "y": 196, "w": 390, "h": 235},
+          "format": {"bar_color": "#22C55E", "background": "#111827", "data_labels": true}
+        },
+        {
+          "id": "bar_top_losers",
+          "type": "bar_chart",
+          "title": "Top Losers 24h",
+          "fields": {
+            "axis": "mart_top_movers[contract_name]",
+            "values": "mart_top_movers[change_pct]",
+            "tooltip": ["mart_top_movers[market_name]", "mart_top_movers[price_now]", "mart_top_movers[price_24h_ago]"]
+          },
+          "filters": [{"field": "mart_top_movers[direction]", "operator": "=", "value": "LOSER"}],
+          "sort": {"by": "mart_top_movers[change_pct]", "direction": "asc"},
+          "top_n": 8,
+          "position": {"x": 432, "y": 196, "w": 390, "h": 235},
+          "format": {"bar_color": "#EF4444", "background": "#111827", "data_labels": true}
+        },
+        {
+          "id": "table_market_leaders",
+          "type": "table",
+          "title": "Líderes por mercado",
+          "fields": [
+            "mart_contract_leaders[market_name]",
+            "mart_contract_leaders[contract_name]",
+            "mart_contract_leaders[last_trade_price]",
+            "mart_contract_leaders[price_change_abs]"
+          ],
+          "filters": [{"field": "mart_contract_leaders[rank_by_price]", "operator": "<=", "value": 10}],
+          "sort": {"by": "mart_contract_leaders[last_trade_price]", "direction": "desc"},
+          "position": {"x": 840, "y": 196, "w": 416, "h": 235},
+          "format": {"background": "#111827", "header_color": "#172033", "conditional_columns": {"last_trade_price": "green_high", "price_change_abs": "red_green"}}
+        },
+        {
+          "id": "bar_market_contract_count",
+          "type": "bar_chart",
+          "title": "Mercados con más contratos",
+          "fields": {
+            "axis": "mart_market_snapshot[market_name]",
+            "values": "mart_market_snapshot[contract_count]"
+          },
+          "aggregation": "max_by_market",
+          "sort": {"by": "mart_market_snapshot[contract_count]", "direction": "desc"},
+          "top_n": 10,
+          "position": {"x": 24, "y": 454, "w": 390, "h": 230},
+          "format": {"bar_color": "#38BDF8", "background": "#111827", "data_labels": true}
+        },
+        {
+          "id": "scatter_price_spread",
+          "type": "scatter_chart",
+          "title": "Precio vs Spread",
+          "fields": {
+            "x": "mart_market_snapshot[last_trade_price]",
+            "y": "mart_market_snapshot[spread_yes]",
+            "details": "mart_market_snapshot[contract_name]",
+            "legend": "mart_market_snapshot[market_status]",
+            "tooltip": ["mart_market_snapshot[market_name]", "mart_market_snapshot[best_buy_yes_cost]", "mart_market_snapshot[best_sell_yes_cost]"]
+          },
+          "position": {"x": 432, "y": 454, "w": 390, "h": 230},
+          "format": {"background": "#111827", "x_format": "0%", "y_format": "0%"}
+        },
+        {
+          "id": "table_active_anomalies",
+          "type": "table",
+          "title": "Anomalías activas",
+          "fields": [
+            "mart_anomaly_detection[contract_name]",
+            "mart_anomaly_detection[current_price]",
+            "mart_anomaly_detection[z_score]",
+            "mart_anomaly_detection[change_24h]",
+            "mart_anomaly_detection[signal_strength]"
+          ],
+          "filters": [{"field": "mart_anomaly_detection[is_anomaly]", "operator": "=", "value": true}],
+          "sort": {"by": "mart_anomaly_detection[z_score]", "direction": "desc_abs"},
+          "top_n": 12,
+          "position": {"x": 840, "y": 454, "w": 416, "h": 230},
+          "format": {"background": "#111827", "conditional_columns": {"z_score": "red_high_abs", "change_24h": "red_green"}}
+        }
+      ]
+    },
+    {
+      "page_id": "page_02_historical_trends",
+      "name": "Historical Trends",
+      "purpose": "Análisis histórico de precios, momentum, promedios móviles y puntos de giro.",
+      "canvas": {"width": 1280, "height": 720, "background": "#0B1020"},
+      "filters": [
+        {"type": "slicer", "field": "dim_market[market_name]", "label": "Mercado", "mode": "dropdown"},
+        {"type": "slicer", "field": "dim_contract[contract_name]", "label": "Contrato", "mode": "dropdown"},
+        {"type": "slicer", "field": "dim_date[date]", "label": "Fecha", "mode": "between"}
+      ],
+      "visuals": [
+        {
+          "id": "trends_title",
+          "type": "text_box",
+          "title": "Historical Trends",
+          "subtitle": "Evolución de precios, momentum y cambios de tendencia",
+          "position": {"x": 24, "y": 18, "w": 760, "h": 52},
+          "format": {"font_size": 24, "font_color": "#F8FAFC"}
+        },
+        {
+          "id": "kpi_obs",
+          "type": "card",
+          "title": "Observaciones",
+          "measure": "Observation Count",
+          "position": {"x": 24, "y": 88, "w": 190, "h": 82},
+          "format": {"accent": "#38BDF8"}
+        },
+        {
+          "id": "kpi_turning_points",
+          "type": "card",
+          "title": "Turning points",
+          "measure": "Significant Turning Points",
+          "position": {"x": 230, "y": 88, "w": 190, "h": 82},
+          "format": {"accent": "#F97316"}
+        },
+        {
+          "id": "kpi_avg_7d",
+          "type": "card",
+          "title": "Avg 7D",
+          "measure": "Avg 7D",
+          "position": {"x": 436, "y": 88, "w": 170, "h": 82},
+          "format": {"accent": "#22C55E"}
+        },
+        {
+          "id": "kpi_avg_30d",
+          "type": "card",
+          "title": "Avg 30D",
+          "measure": "Avg 30D",
+          "position": {"x": 622, "y": 88, "w": 170, "h": 82},
+          "format": {"accent": "#A855F7"}
+        },
+        {
+          "id": "line_price_history",
+          "type": "line_chart",
+          "title": "Precio histórico por hora/día",
+          "fields": {
+            "x": "mart_price_trends[snapshot_date]",
+            "y": "mart_price_trends[avg_last_trade_price]",
+            "legend": "mart_price_trends[contract_name]",
+            "tooltip": ["mart_price_trends[min_last_trade_price]", "mart_price_trends[max_last_trade_price]", "mart_price_trends[observations]"]
+          },
+          "position": {"x": 24, "y": 190, "w": 600, "h": 270},
+          "format": {"background": "#111827", "line_width": 3, "y_format": "0%"}
+        },
+        {
+          "id": "line_rolling_averages",
+          "type": "line_chart",
+          "title": "Close Price vs Promedios móviles",
+          "fields": {
+            "x": "mart_rolling_averages[snapshot_date]",
+            "y_series": [
+              "mart_rolling_averages[close_price]",
+              "mart_rolling_averages[avg_7d]",
+              "mart_rolling_averages[avg_14d]",
+              "mart_rolling_averages[avg_30d]"
+            ],
+            "tooltip": ["mart_rolling_averages[contract_name]", "mart_rolling_averages[market_name]"]
+          },
+          "position": {"x": 644, "y": 190, "w": 612, "h": 270},
+          "format": {"background": "#111827", "line_width": 3, "y_format": "0%"}
+        },
+        {
+          "id": "bar_candidate_momentum",
+          "type": "bar_chart",
+          "title": "Top momentum 30D",
+          "fields": {
+            "axis": "mart_candidate_momentum[contract_name]",
+            "values": "mart_candidate_momentum[total_change_30d]",
+            "tooltip": ["mart_candidate_momentum[market_name]", "mart_candidate_momentum[avg_daily_change]", "mart_candidate_momentum[momentum_direction]"]
+          },
+          "sort": {"by": "mart_candidate_momentum[momentum_rank]", "direction": "asc"},
+          "top_n": 12,
+          "position": {"x": 24, "y": 482, "w": 390, "h": 210},
+          "format": {"background": "#111827", "bar_color": "#22C55E", "conditional_color": "red_green"}
+        },
+        {
+          "id": "table_turning_points",
+          "type": "table",
+          "title": "Turning points significativos",
+          "fields": [
+            "mart_turning_points[snapshot_date]",
+            "mart_turning_points[contract_name]",
+            "mart_turning_points[price_before]",
+            "mart_turning_points[price_after]",
+            "mart_turning_points[impact_pct]",
+            "mart_turning_points[trend_direction]"
+          ],
+          "filters": [{"field": "mart_turning_points[is_significant]", "operator": "=", "value": true}],
+          "sort": {"by": "mart_turning_points[impact_pct]", "direction": "desc_abs"},
+          "top_n": 15,
+          "position": {"x": 432, "y": 482, "w": 824, "h": 210},
+          "format": {"background": "#111827", "conditional_columns": {"impact_pct": "red_green", "trend_direction": "up_down"}}
+        }
+      ]
+    },
+    {
+      "page_id": "page_03_risk_anomalies",
+      "name": "Risk & Anomalies",
+      "purpose": "Monitoreo de riesgos: anomalías estadísticas, z-score, volatilidad y liquidez/spreads.",
+      "canvas": {"width": 1280, "height": 720, "background": "#0B1020"},
+      "filters": [
+        {"type": "slicer", "field": "dim_market[market_name]", "label": "Mercado", "mode": "dropdown"},
+        {"type": "slicer", "field": "mart_volatility_analysis[window_days]", "label": "Ventana", "mode": "button"},
+        {"type": "slicer", "field": "mart_anomaly_detection[signal_strength]", "label": "Fuerza señal", "mode": "button"}
+      ],
+      "visuals": [
+        {
+          "id": "risk_title",
+          "type": "text_box",
+          "title": "Risk & Anomalies",
+          "subtitle": "Detección de anomalías, z-score, volatilidad y riesgo de liquidez",
+          "position": {"x": 24, "y": 18, "w": 760, "h": 52},
+          "format": {"font_size": 24, "font_color": "#F8FAFC"}
+        },
+        {
+          "id": "risk_kpi_active_anomalies",
+          "type": "card",
+          "title": "Anomalías activas",
+          "measure": "Active Anomalies",
+          "position": {"x": 24, "y": 88, "w": 180, "h": 82},
+          "format": {"accent": "#EF4444"}
+        },
+        {
+          "id": "risk_kpi_extreme_z",
+          "type": "card",
+          "title": "Z-score extremo",
+          "measure": "Extreme Z Score",
+          "position": {"x": 220, "y": 88, "w": 180, "h": 82},
+          "format": {"accent": "#F97316"}
+        },
+        {
+          "id": "risk_kpi_avg_volatility",
+          "type": "card",
+          "title": "Volatilidad prom.",
+          "measure": "Avg Volatility Score",
+          "position": {"x": 416, "y": 88, "w": 180, "h": 82},
+          "format": {"accent": "#A855F7"}
+        },
+        {
+          "id": "risk_kpi_avg_spread",
+          "type": "card",
+          "title": "Spread prom.",
+          "measure": "Avg Spread Yes",
+          "position": {"x": 612, "y": 88, "w": 180, "h": 82},
+          "format": {"accent": "#38BDF8"}
+        },
+        {
+          "id": "risk_kpi_max_spread",
+          "type": "card",
+          "title": "Spread máximo",
+          "measure": "Max Spread Yes",
+          "position": {"x": 808, "y": 88, "w": 180, "h": 82},
+          "format": {"accent": "#EAB308"}
+        },
+        {
+          "id": "risk_kpi_liquidity",
+          "type": "card",
+          "title": "Liquidity risk",
+          "measure": "Liquidity Risk Score",
+          "position": {"x": 1004, "y": 88, "w": 252, "h": 82},
+          "format": {"accent": "#EF4444"}
+        },
+        {
+          "id": "scatter_zscore_change",
+          "type": "scatter_chart",
+          "title": "Z-score vs cambio 24h",
+          "fields": {
+            "x": "mart_anomaly_detection[change_24h]",
+            "y": "mart_anomaly_detection[z_score]",
+            "details": "mart_anomaly_detection[contract_name]",
+            "legend": "mart_anomaly_detection[is_anomaly]",
+            "tooltip": ["mart_anomaly_detection[market_name]", "mart_anomaly_detection[current_price]", "mart_anomaly_detection[signal_strength]"]
+          },
+          "position": {"x": 24, "y": 194, "w": 410, "h": 250},
+          "format": {"background": "#111827", "x_format": "0%", "y_format": "0.00", "highlight_true": "#EF4444"}
+        },
+        {
+          "id": "bar_high_volatility",
+          "type": "bar_chart",
+          "title": "Contratos más volátiles",
+          "fields": {
+            "axis": "mart_volatility_analysis[contract_name]",
+            "values": "mart_volatility_analysis[volatility_score]",
+            "tooltip": ["mart_volatility_analysis[market_name]", "mart_volatility_analysis[current_price]", "mart_volatility_analysis[price_range]"]
+          },
+          "filters": [{"field": "mart_volatility_analysis[window_days]", "operator": "=", "value": 30}],
+          "sort": {"by": "mart_volatility_analysis[volatility_score]", "direction": "desc"},
+          "top_n": 10,
+          "position": {"x": 452, "y": 194, "w": 390, "h": 250},
+          "format": {"background": "#111827", "bar_color": "#A855F7", "data_labels": true}
+        },
+        {
+          "id": "bar_widest_spreads",
+          "type": "bar_chart",
+          "title": "Spreads más amplios",
+          "fields": {
+            "axis": "mart_spread_analysis[contract_name]",
+            "values": "mart_spread_analysis[current_spread_yes]",
+            "tooltip": ["mart_spread_analysis[market_name]", "mart_spread_analysis[avg_spread_yes]", "mart_spread_analysis[implied_volatility]"]
+          },
+          "sort": {"by": "mart_spread_analysis[current_spread_yes]", "direction": "desc"},
+          "top_n": 10,
+          "position": {"x": 860, "y": 194, "w": 396, "h": 250},
+          "format": {"background": "#111827", "bar_color": "#F97316", "data_labels": true}
+        },
+        {
+          "id": "table_anomaly_master",
+          "type": "table",
+          "title": "Detalle de señales y anomalías",
+          "fields": [
+            "mart_anomaly_detection[contract_name]",
+            "mart_anomaly_detection[market_name]",
+            "mart_anomaly_detection[current_price]",
+            "mart_anomaly_detection[avg_price_30d]",
+            "mart_anomaly_detection[z_score]",
+            "mart_anomaly_detection[is_anomaly]",
+            "mart_anomaly_detection[signal_type]",
+            "mart_anomaly_detection[signal_strength]"
+          ],
+          "sort": {"by": "mart_anomaly_detection[anomaly_score]", "direction": "desc"},
+          "top_n": 20,
+          "position": {"x": 24, "y": 466, "w": 1232, "h": 226},
+          "format": {"background": "#111827", "header_color": "#172033", "conditional_columns": {"z_score": "red_high_abs", "is_anomaly": "true_red_false_green", "current_price": "green_high"}}
+        }
+      ]
+    },
+    {
+      "page_id": "page_04_contract_detail",
+      "name": "Contract Detail",
+      "purpose": "Página de drill-through para analizar un contrato individual: precio, cambio 24h, promedios móviles, volatilidad, spread y eventos.",
+      "canvas": {"width": 1280, "height": 720, "background": "#0B1020"},
+      "filters": [
+        {"type": "slicer", "field": "dim_contract[contract_name]", "label": "Contrato", "mode": "dropdown", "required": true},
+        {"type": "slicer", "field": "dim_market[market_name]", "label": "Mercado", "mode": "dropdown"},
+        {"type": "slicer", "field": "dim_date[date]", "label": "Rango de fecha", "mode": "between"}
+      ],
+      "drillthrough": {
+        "enabled": true,
+        "fields": ["dim_contract[contract_id]", "dim_contract[contract_name]", "dim_market[market_id]", "dim_market[market_name]"]
+      },
+      "visuals": [
+        {
+          "id": "contract_title",
+          "type": "text_box",
+          "title": "Contract Detail",
+          "subtitle": "Análisis detallado del contrato seleccionado",
+          "position": {"x": 24, "y": 18, "w": 760, "h": 52},
+          "format": {"font_size": 24, "font_color": "#F8FAFC"}
+        },
+        {
+          "id": "contract_selector",
+          "type": "slicer",
+          "title": "Seleccionar contrato",
+          "field": "dim_contract[contract_name]",
+          "position": {"x": 858, "y": 18, "w": 398, "h": 52},
+          "format": {"background": "#111827", "dropdown": true}
+        },
+        {
+          "id": "contract_kpi_current_price",
+          "type": "card",
+          "title": "Precio actual",
+          "measure": "Current Contract Price",
+          "position": {"x": 24, "y": 88, "w": 170, "h": 82},
+          "format": {"accent": "#38BDF8"}
+        },
+        {
+          "id": "contract_kpi_change_24h",
+          "type": "card",
+          "title": "Cambio 24h",
+          "measure": "Contract Change 24h",
+          "position": {"x": 210, "y": 88, "w": 170, "h": 82},
+          "format": {"accent": "#22C55E", "conditional_color": "red_green"}
+        },
+        {
+          "id": "contract_kpi_avg7",
+          "type": "card",
+          "title": "Avg 7D",
+          "measure": "Avg 7D",
+          "position": {"x": 396, "y": 88, "w": 170, "h": 82},
+          "format": {"accent": "#EAB308"}
+        },
+        {
+          "id": "contract_kpi_avg30",
+          "type": "card",
+          "title": "Avg 30D",
+          "measure": "Avg 30D",
+          "position": {"x": 582, "y": 88, "w": 170, "h": 82},
+          "format": {"accent": "#A855F7"}
+        },
+        {
+          "id": "contract_kpi_volatility",
+          "type": "card",
+          "title": "Volatility score",
+          "measure": "Avg Volatility Score",
+          "position": {"x": 768, "y": 88, "w": 210, "h": 82},
+          "format": {"accent": "#F97316"}
+        },
+        {
+          "id": "contract_kpi_spread",
+          "type": "card",
+          "title": "Spread actual",
+          "measure": "Avg Spread Yes",
+          "position": {"x": 994, "y": 88, "w": 262, "h": 82},
+          "format": {"accent": "#EF4444"}
+        },
+        {
+          "id": "contract_line_price",
+          "type": "line_chart",
+          "title": "Evolución del precio",
+          "fields": {
+            "x": "mart_price_trends[snapshot_date]",
+            "y": "mart_price_trends[avg_last_trade_price]",
+            "tooltip": ["mart_price_trends[min_last_trade_price]", "mart_price_trends[max_last_trade_price]", "mart_price_trends[observations]"]
+          },
+          "position": {"x": 24, "y": 194, "w": 610, "h": 260},
+          "format": {"background": "#111827", "line_color": "#38BDF8", "line_width": 3, "y_format": "0%"}
+        },
+        {
+          "id": "contract_line_rolling",
+          "type": "line_chart",
+          "title": "Close vs Avg 7D/14D/30D",
+          "fields": {
+            "x": "mart_rolling_averages[snapshot_date]",
+            "y_series": [
+              "mart_rolling_averages[close_price]",
+              "mart_rolling_averages[avg_7d]",
+              "mart_rolling_averages[avg_14d]",
+              "mart_rolling_averages[avg_30d]"
+            ]
+          },
+          "position": {"x": 652, "y": 194, "w": 604, "h": 260},
+          "format": {"background": "#111827", "line_width": 3, "y_format": "0%"}
+        },
+        {
+          "id": "contract_table_events",
+          "type": "table",
+          "title": "Eventos / Turning points",
+          "fields": [
+            "mart_turning_points[snapshot_date]",
+            "mart_turning_points[price_before]",
+            "mart_turning_points[price_after]",
+            "mart_turning_points[impact_pct]",
+            "mart_turning_points[trend_direction]"
+          ],
+          "sort": {"by": "mart_turning_points[snapshot_date]", "direction": "desc"},
+          "position": {"x": 24, "y": 478, "w": 390, "h": 214},
+          "format": {"background": "#111827", "conditional_columns": {"impact_pct": "red_green", "trend_direction": "up_down"}}
+        },
+        {
+          "id": "contract_table_microstructure",
+          "type": "table",
+          "title": "Microestructura y riesgo",
+          "fields": [
+            "mart_spread_analysis[avg_spread_yes]",
+            "mart_spread_analysis[current_spread_yes]",
+            "mart_spread_analysis[max_spread_yes]",
+            "mart_spread_analysis[implied_volatility]",
+            "mart_spread_analysis[spread_volatility_ratio]"
+          ],
+          "position": {"x": 432, "y": 478, "w": 390, "h": 214},
+          "format": {"background": "#111827", "conditional_columns": {"current_spread_yes": "orange_high", "spread_volatility_ratio": "red_high"}}
+        },
+        {
+          "id": "contract_table_anomaly_status",
+          "type": "table",
+          "title": "Estado de anomalía",
+          "fields": [
+            "mart_anomaly_detection[current_price]",
+            "mart_anomaly_detection[avg_price_30d]",
+            "mart_anomaly_detection[stddev_price_30d]",
+            "mart_anomaly_detection[z_score]",
+            "mart_anomaly_detection[is_anomaly]",
+            "mart_anomaly_detection[signal_strength]"
+          ],
+          "position": {"x": 840, "y": 478, "w": 416, "h": 214},
+          "format": {"background": "#111827", "conditional_columns": {"z_score": "red_high_abs", "is_anomaly": "true_red_false_green"}}
+        }
+      ]
+    }
+  ],
+  "navigation": {
+    "recommended_page_order": [
+      "Executive Overview",
+      "Historical Trends",
+      "Risk & Anomalies",
+      "Contract Detail"
+    ],
+    "navigation_buttons": [
+      {"label": "Overview", "target_page": "Executive Overview"},
+      {"label": "Trends", "target_page": "Historical Trends"},
+      {"label": "Risk", "target_page": "Risk & Anomalies"},
+      {"label": "Contract", "target_page": "Contract Detail"}
+    ],
+    "recommended_behavior": "Usar botones superiores o panel lateral izquierdo. Mantener filtros sincronizados por mercado y contrato cuando sea posible."
+  },
+  "build_steps": [
+    {
+      "step": 1,
+      "title": "Conectar datos",
+      "details": "En Power BI Desktop, Obtener datos > ODBC > seleccionar DSN de DuckDB. Cargar las 11 tablas del esquema main_marts."
+    },
+    {
+      "step": 2,
+      "title": "Crear dimensiones",
+      "details": "Crear dim_market, dim_contract y dim_date para evitar relaciones many-to-many entre marts."
+    },
+    {
+      "step": 3,
+      "title": "Crear medidas",
+      "details": "Crear tabla _Measures y agregar las medidas DAX definidas en dax_measures."
+    },
+    {
+      "step": 4,
+      "title": "Crear páginas",
+      "details": "Crear las cuatro páginas con tamaño 16:9. Usar fondo oscuro #0B1020 y paneles #111827."
+    },
+    {
+      "step": 5,
+      "title": "Agregar visuales",
+      "details": "Usar el arreglo pages[].visuals como guía exacta de visual, campos, filtros, posiciones y formato."
+    },
+    {
+      "step": 6,
+      "title": "Validar filtros",
+      "details": "Probar filtros por market_name, contract_name, date, direction y signal_strength. Verificar que no se filtren tablas incorrectamente por relaciones ambiguas."
+    },
+    {
+      "step": 7,
+      "title": "Guardar",
+      "details": "Guardar primero como .pbix. Luego guardar como Power BI Project (.pbip) si se quiere editar internamente/versionar en Git."
+    }
+  ],
+  "quality_rules": [
+    "No saturar una sola página con todos los marts.",
+    "Cada página debe responder una pregunta analítica distinta.",
+    "Usar mart_market_snapshot para estado actual, no fct_contract_prices.",
+    "Usar fct_contract_prices solo para auditoría o detalle granular.",
+    "Usar mart_price_trends y mart_rolling_averages para líneas históricas, no la tabla base completa.",
+    "Usar mart_anomaly_detection como fuente principal para alertas.",
+    "Usar mart_spread_analysis para liquidez y mart_volatility_analysis para riesgo de precio.",
+    "Mantener formatos porcentuales en precios, cambios y spreads.",
+    "Aplicar formato condicional: verde para subidas, rojo para caídas/anomalías, naranja para riesgo medio."
+  ],
+  "expected_user_experience": {
+    "overview": "El usuario abre el reporte y ve inmediatamente cuántos mercados/contratos hay, precio promedio, mayor gainer, mayor loser, anomalías y spreads.",
+    "trends": "El usuario analiza evolución histórica y detecta movimientos sostenidos o cambios bruscos.",
+    "risk": "El usuario identifica contratos anómalos, volátiles o con baja liquidez.",
+    "contract_detail": "El usuario selecciona un contrato y ve su evolución, promedios, spreads, anomalías y eventos relevantes."
+  }
+}

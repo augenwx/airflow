@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "risk_kpi_liquidity",
+  "position": {
+    "x": 1004,
+    "y": 88,
+    "z": 9,
+    "height": 82,
+    "width": 252,
+    "tabOrder": 9
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Liquidity Risk Score"
+                }
+              },
+              "queryRef": "_Measures.Liquidity Risk Score",
+              "nativeQueryRef": "Liquidity Risk Score"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

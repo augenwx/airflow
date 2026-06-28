@@ -1,0 +1,171 @@
+table mart_anomaly_detection
+	lineageTag: faade2bd-bd2e-3f4a-5b6c-7d8e9f0a1b2c
+
+	measure 'Total Anomalies' = COUNTROWS(FILTER(mart_anomaly_detection, mart_anomaly_detection[is_anomaly] = TRUE()))
+		formatString: #,##0
+		lineageTag: abbef3ce-ce3f-4a5b-6c7d-8e9f0a1b2c3d
+
+	measure 'Largest 24H Reversal' = MAX(mart_anomaly_detection[change_24h])
+		formatString: 0.00
+		lineageTag: bccfa4df-df4a-5b6c-7d8e-9f0a1b2c3d4e
+
+	measure 'Anomalías Activas' = COUNTROWS(FILTER(mart_anomaly_detection, mart_anomaly_detection[is_anomaly] = TRUE()))
+		formatString: #,##0
+		lineageTag: 3b222222-2222-4222-8222-222222222221
+
+	measure 'Contratos Evaluados Anomalías' = COUNTROWS(mart_anomaly_detection)
+		formatString: #,##0
+		lineageTag: 3b222222-2222-4222-8222-222222222222
+
+	measure 'Z Score Extremo' = MAXX(mart_anomaly_detection, ABS(mart_anomaly_detection[z_score]))
+		formatString: 0.00
+		lineageTag: 3b222222-2222-4222-8222-222222222223
+
+	column contract_id
+		dataType: string
+		lineageTag: cddab5ea-ea5b-6c7d-8e9f-0a1b2c3d4e5f
+		summarizeBy: none
+		sourceColumn: contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_name
+		dataType: string
+		lineageTag: deebc6fb-fb6c-7d8e-9f0a-1b2c3d4e5f6a
+		summarizeBy: none
+		sourceColumn: contract_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_id
+		dataType: string
+		lineageTag: effcd7ac-ac7d-8e9f-0a1b-2c3d4e5f6a7b
+		summarizeBy: none
+		sourceColumn: market_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_name
+		dataType: string
+		lineageTag: faade8bd-bd8e-9f0a-1b2c-3d4e5f6a7b8c
+		summarizeBy: none
+		sourceColumn: market_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column current_price
+		dataType: double
+		lineageTag: abbef9ce-ce9f-0a1b-2c3d-4e5f6a7b8c9d
+		summarizeBy: sum
+		sourceColumn: current_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_price_30d
+		dataType: double
+		lineageTag: bccfaadf-df0a-1b2c-3d4e-5f6a7b8c9d0e
+		summarizeBy: sum
+		sourceColumn: avg_price_30d
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column stddev_price_30d
+		dataType: double
+		lineageTag: cddabbea-ea1b-2c3d-4e5f-6a7b8c9d0e1f
+		summarizeBy: sum
+		sourceColumn: stddev_price_30d
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column z_score
+		dataType: double
+		lineageTag: deebccfb-fb2c-3d4e-5f6a-7b8c9d0e1f2a
+		summarizeBy: sum
+		sourceColumn: z_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column is_anomaly
+		dataType: string
+		lineageTag: effcddac-ac3d-4e5f-6a7b-8c9d0e1f2a3b
+		summarizeBy: none
+		sourceColumn: is_anomaly
+
+		annotation SummarizationSetBy = Automatic
+
+	column change_24h
+		dataType: double
+		lineageTag: faadeebd-bd4e-5f6a-7b8c-9d0e1f2a3b4c
+		summarizeBy: sum
+		sourceColumn: change_24h
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column volatility_30d
+		dataType: double
+		lineageTag: abbeffce-ce5f-6a7b-8c9d-0e1f2a3b4c5d
+		summarizeBy: sum
+		sourceColumn: volatility_30d
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column anomaly_score
+		dataType: double
+		lineageTag: bccfaadf-df6a-7b8c-9d0e-1f2a3b4c5d6e
+		summarizeBy: sum
+		sourceColumn: anomaly_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column signal_type
+		dataType: string
+		lineageTag: cddabbea-ea7b-8c9d-0e1f-2a3b4c5d6e7f
+		summarizeBy: none
+		sourceColumn: signal_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column signal_strength
+		dataType: string
+		lineageTag: deebccfb-fb8c-9d0e-1f2a-3b4c5d6e7f8a
+		summarizeBy: none
+		sourceColumn: signal_strength
+
+		annotation SummarizationSetBy = Automatic
+
+	column extraction_ts
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: effcddac-ac9d-0e1f-2a3b-4c5d6e7f8a9b
+		summarizeBy: none
+		sourceColumn: extraction_ts
+
+		annotation SummarizationSetBy = Automatic
+
+	partition mart_anomaly_detection = m
+		mode: import
+		source =
+				let
+				    Origen = Odbc.DataSource("dsn=duckdb2", [HierarchicalNavigation=true]),
+				    predictit_Database = Origen{[Name="predictit",Kind="Database"]}[Data],
+				    main_marts_Schema = predictit_Database{[Name="main_marts",Kind="Schema"]}[Data],
+				    mart_anomaly_detection_Table = main_marts_Schema{[Name="mart_anomaly_detection",Kind="Table"]}[Data]
+				in
+				    mart_anomaly_detection_Table
+
+	annotation PBI_ResultType = Table
+

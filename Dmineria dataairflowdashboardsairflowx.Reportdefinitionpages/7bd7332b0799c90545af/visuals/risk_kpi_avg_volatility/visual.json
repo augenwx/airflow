@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "risk_kpi_avg_volatility",
+  "position": {
+    "x": 416,
+    "y": 88,
+    "z": 6,
+    "height": 82,
+    "width": 180,
+    "tabOrder": 6
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Avg Volatility Score"
+                }
+              },
+              "queryRef": "_Measures.Avg Volatility Score",
+              "nativeQueryRef": "Avg Volatility Score"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

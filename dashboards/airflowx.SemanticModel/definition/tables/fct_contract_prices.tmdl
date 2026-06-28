@@ -1,6 +1,34 @@
 table fct_contract_prices
 	lineageTag: 7f58a3c5-0662-45b7-9e24-064a1fef1e87
 
+	measure 'Avg Trade Price' = AVERAGE(fct_contract_prices[last_trade_price])
+		formatString: $#,##0.00
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000001
+
+	measure 'Total Contracts' = DISTINCTCOUNT(fct_contract_prices[contract_id])
+		formatString: #,##0
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000002
+
+	measure 'Total Markets Historical' = DISTINCTCOUNT(fct_contract_prices[market_id])
+		formatString: #,##0
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000003
+
+	measure 'Max Trade Price' = MAX(fct_contract_prices[last_trade_price])
+		formatString: $#,##0.00
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000004
+
+	measure 'Avg Price Change' = AVERAGE(fct_contract_prices[price_change_from_last_close])
+		formatString: $#,##0.00
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000006
+
+	measure 'Avg Buy Yes Cost' = AVERAGE(fct_contract_prices[best_buy_yes_cost])
+		formatString: $#,##0.00
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000010
+
+	measure 'Avg Buy No Cost' = AVERAGE(fct_contract_prices[best_buy_no_cost])
+		formatString: $#,##0.00
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000011
+
 	column extraction_ts
 		dataType: dateTime
 		formatString: General Date
@@ -117,25 +145,33 @@ table fct_contract_prices
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure 'Avg Trade Price' = AVERAGE(fct_contract_prices[last_trade_price])
-		formatString: $#,##0.00
-		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000001
+	column spread_yes
+		dataType: double
+		lineageTag: c4a21f01-8b3e-4d19-a5c1-1e2f3a4b5c6d
+		summarizeBy: sum
+		sourceColumn: spread_yes
 
-	measure 'Total Contracts' = DISTINCTCOUNT(fct_contract_prices[contract_id])
-		formatString: #,##0
-		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000002
+		annotation SummarizationSetBy = Automatic
 
-	measure 'Total Markets' = DISTINCTCOUNT(fct_contract_prices[market_id])
-		formatString: #,##0
-		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000003
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure 'Max Trade Price' = MAX(fct_contract_prices[last_trade_price])
-		formatString: $#,##0.00
-		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000004
+	column spread_no
+		dataType: double
+		lineageTag: d5b32f02-9c4f-5e2a-b6d2-2f3a4b5c6d7e
+		summarizeBy: sum
+		sourceColumn: spread_no
 
-	measure 'Avg Price Change' = AVERAGE(fct_contract_prices[price_change_from_last_close])
-		formatString: $#,##0.00
-		lineageTag: a1b10001-aaa1-4bb1-8cc1-dd1000000006
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column market_status
+		dataType: string
+		lineageTag: e6c43f03-ad50-6f3b-c7e3-3a4b5c6d7e8f
+		summarizeBy: none
+		sourceColumn: market_status
+
+		annotation SummarizationSetBy = Automatic
 
 	partition fct_contract_prices = m
 		mode: import
@@ -149,3 +185,4 @@ table fct_contract_prices
 				    fct_contract_prices_Table
 
 	annotation PBI_ResultType = Table
+

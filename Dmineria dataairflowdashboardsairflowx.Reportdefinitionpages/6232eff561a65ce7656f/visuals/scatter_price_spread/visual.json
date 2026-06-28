@@ -1,0 +1,76 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "scatter_price_spread",
+  "position": {
+    "x": 432,
+    "y": 454,
+    "z": 16,
+    "height": 230,
+    "width": 390,
+    "tabOrder": 16
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_market_snapshot"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_market_snapshot.contract_name",
+              "nativeQueryRef": "contract_name",
+              "active": true
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_market_snapshot"
+                    }
+                  },
+                  "Property": "last_trade_price"
+                }
+              },
+              "queryRef": "mart_market_snapshot.last_trade_price",
+              "nativeQueryRef": "last_trade_price",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_market_snapshot"
+                    }
+                  },
+                  "Property": "spread_yes"
+                }
+              },
+              "queryRef": "mart_market_snapshot.spread_yes",
+              "nativeQueryRef": "spread_yes"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

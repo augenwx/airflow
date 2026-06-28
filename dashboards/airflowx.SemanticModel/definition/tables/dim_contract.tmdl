@@ -1,0 +1,41 @@
+table dim_contract
+	lineageTag: 2b222222-2222-4222-8222-222222222221
+
+	column contract_id
+		dataType: string
+		lineageTag: 2b222222-2222-4222-8222-222222222222
+		summarizeBy: none
+		sourceColumn: contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_name
+		dataType: string
+		lineageTag: 2b222222-2222-4222-8222-222222222223
+		summarizeBy: none
+		sourceColumn: contract_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_id
+		dataType: string
+		lineageTag: 2b222222-2222-4222-8222-222222222224
+		summarizeBy: none
+		sourceColumn: market_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_contract = m
+		mode: import
+		source =
+				let
+				    Origen = Odbc.DataSource("dsn=duckdb2", [HierarchicalNavigation=true]),
+				    predictit_Database = Origen{[Name="predictit",Kind="Database"]}[Data],
+				    main_marts_Schema = predictit_Database{[Name="main_marts",Kind="Schema"]}[Data],
+				    mart_market_snapshot_Table = main_marts_Schema{[Name="mart_market_snapshot",Kind="Table"]}[Data],
+				    dim_contract_Table = Table.Distinct(Table.SelectColumns(mart_market_snapshot_Table, {"contract_id", "contract_name", "market_id"}))
+				in
+				    dim_contract_Table
+
+	annotation PBI_ResultType = Table
+

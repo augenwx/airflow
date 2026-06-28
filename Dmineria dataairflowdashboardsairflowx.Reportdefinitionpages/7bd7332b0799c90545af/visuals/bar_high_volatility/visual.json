@@ -1,0 +1,57 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "bar_high_volatility",
+  "position": {
+    "x": 452,
+    "y": 194,
+    "z": 11,
+    "height": 250,
+    "width": 390,
+    "tabOrder": 11
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_volatility_analysis"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_volatility_analysis.contract_name",
+              "nativeQueryRef": "contract_name",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_volatility_analysis"
+                    }
+                  },
+                  "Property": "volatility_score"
+                }
+              },
+              "queryRef": "mart_volatility_analysis.volatility_score",
+              "nativeQueryRef": "volatility_score"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

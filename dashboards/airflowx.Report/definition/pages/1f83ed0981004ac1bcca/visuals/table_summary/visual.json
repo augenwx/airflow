@@ -1,0 +1,196 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "table_summary",
+  "position": {
+    "x": 649.05877820399007,
+    "y": 421.2707080520612,
+    "z": 9000,
+    "height": 299.1433692356656,
+    "width": 631.21995343305582,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_market_snapshot"
+                    }
+                  },
+                  "Property": "market_name"
+                }
+              },
+              "queryRef": "mart_market_snapshot.market_name",
+              "nativeQueryRef": "Market"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_market_snapshot"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_market_snapshot.contract_name",
+              "nativeQueryRef": "Contract"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_market_snapshot"
+                    }
+                  },
+                  "Property": "last_trade_price"
+                }
+              },
+              "queryRef": "mart_market_snapshot.last_trade_price",
+              "nativeQueryRef": "Price"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_market_snapshot"
+                    }
+                  },
+                  "Property": "price_change_from_last_close"
+                }
+              },
+              "queryRef": "mart_market_snapshot.price_change_from_last_close",
+              "nativeQueryRef": "Change"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_market_snapshot"
+                    }
+                  },
+                  "Property": "spread_yes"
+                }
+              },
+              "queryRef": "mart_market_snapshot.spread_yes",
+              "nativeQueryRef": "Spread"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_market_snapshot"
+                    }
+                  },
+                  "Property": "extraction_ts"
+                }
+              },
+              "queryRef": "mart_market_snapshot.extraction_ts",
+              "nativeQueryRef": "Timestamp"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "f08790962640b83d1807",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_market_snapshot"
+              }
+            },
+            "Property": "market_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "319e2d42484c59550a3c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_market_snapshot"
+              }
+            },
+            "Property": "contract_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "6a6627cea234321c6b47",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_market_snapshot"
+              }
+            },
+            "Property": "last_trade_price"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "94c9b97cd0d0ab5805a0",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_market_snapshot"
+              }
+            },
+            "Property": "price_change_from_last_close"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d312aace43e106a630ae",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_market_snapshot"
+              }
+            },
+            "Property": "spread_yes"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "a83445558ac707c067b7",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_market_snapshot"
+              }
+            },
+            "Property": "extraction_ts"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

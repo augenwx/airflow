@@ -1,0 +1,33 @@
+table dim_market
+	lineageTag: 2a111111-1111-4111-8111-111111111111
+
+	column market_id
+		dataType: string
+		lineageTag: 2a111111-1111-4111-8111-111111111112
+		summarizeBy: none
+		sourceColumn: market_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_name
+		dataType: string
+		lineageTag: 2a111111-1111-4111-8111-111111111113
+		summarizeBy: none
+		sourceColumn: market_name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_market = m
+		mode: import
+		source =
+				let
+				    Origen = Odbc.DataSource("dsn=duckdb2", [HierarchicalNavigation=true]),
+				    predictit_Database = Origen{[Name="predictit",Kind="Database"]}[Data],
+				    main_marts_Schema = predictit_Database{[Name="main_marts",Kind="Schema"]}[Data],
+				    mart_market_snapshot_Table = main_marts_Schema{[Name="mart_market_snapshot",Kind="Table"]}[Data],
+				    dim_market_Table = Table.Distinct(Table.SelectColumns(mart_market_snapshot_Table, {"market_id", "market_name"}))
+				in
+				    dim_market_Table
+
+	annotation PBI_ResultType = Table
+

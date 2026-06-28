@@ -9,7 +9,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
 
-PROJECT_ROOT = Path(os.getenv("PROJECT_ROOT", "/opt/predictit-data-pipeline"))
+PROJECT_ROOT = Path(os.getenv("PROJECT_ROOT", "/mnt/d/mineria data/airflow"))
 SRC_PATH = PROJECT_ROOT / "src"
 if str(SRC_PATH) not in sys.path:
     sys.path.insert(0, str(SRC_PATH))

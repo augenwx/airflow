@@ -1,0 +1,94 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "table_active_anomalies",
+  "position": {
+    "x": 840,
+    "y": 454,
+    "z": 17,
+    "height": 230,
+    "width": 416,
+    "tabOrder": 17
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.contract_name",
+              "nativeQueryRef": "contract_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "current_price"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.current_price",
+              "nativeQueryRef": "current_price"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "z_score"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.z_score",
+              "nativeQueryRef": "z_score"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "change_24h"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.change_24h",
+              "nativeQueryRef": "change_24h"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "signal_strength"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.signal_strength",
+              "nativeQueryRef": "signal_strength"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

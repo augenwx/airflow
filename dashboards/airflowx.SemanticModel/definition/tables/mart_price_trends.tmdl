@@ -1,6 +1,18 @@
 table mart_price_trends
 	lineageTag: 02f74602-1956-457a-a85d-9e8c3bd8bbe8
 
+	measure 'Trend Avg Price' = AVERAGE(mart_price_trends[avg_last_trade_price])
+		formatString: $#,##0.00
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-ff1000000001
+
+	measure 'Trend Min Price' = AVERAGE(mart_price_trends[min_last_trade_price])
+		formatString: $#,##0.00
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-ff1000000002
+
+	measure 'Trend Max Price' = AVERAGE(mart_price_trends[max_last_trade_price])
+		formatString: $#,##0.00
+		lineageTag: a1b10001-aaa1-4bb1-8cc1-ff1000000003
+
 	column market_id
 		dataType: string
 		lineageTag: 533d2fec-69aa-453d-bcde-616460aab1f8
@@ -85,6 +97,42 @@ table mart_price_trends
 		sourceColumn: observations
 
 		annotation SummarizationSetBy = Automatic
+
+	column avg_spread_yes
+		dataType: double
+		lineageTag: fd3baf0a-bec6-da02-defa-ab1c2d3e4f5a
+		summarizeBy: sum
+		sourceColumn: avg_spread_yes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column price_range
+		dataType: double
+		lineageTag: ae4cbf0b-cfd7-eb13-efab-bc2d3e4f5a6b
+		summarizeBy: sum
+		sourceColumn: price_range
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column snapshot_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: bf5dcf0c-d0e8-fc24-f0bc-cd3e4f5a6b7c
+		summarizeBy: none
+		sourceColumn: snapshot_date
+
+		variation Variación
+			isDefault
+			relationship: 958356ae-0084-4fa6-bf50-1e946455f0f9
+			defaultHierarchy: LocalDateTable_a5789f77-5637-472c-9fa7-ffc4aacee314.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	partition mart_price_trends = m
 		mode: import

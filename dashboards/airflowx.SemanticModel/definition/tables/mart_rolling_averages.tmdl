@@ -1,0 +1,108 @@
+table mart_rolling_averages
+	lineageTag: da6e7f8a-9b0c-1d2e-3f4a-5b6c7d8e9f0a
+
+	measure 'Avg 7d' = MAX(mart_rolling_averages[avg_7d])
+		formatString: 0.000
+		lineageTag: 3e555555-5555-4555-8555-555555555551
+
+	column contract_id
+		dataType: string
+		lineageTag: eb7f8a9b-0c1d-2e3f-4a5b-6c7d8e9f0a1b
+		summarizeBy: none
+		sourceColumn: contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_name
+		dataType: string
+		lineageTag: fc8a9b0c-1d2e-3f4a-5b6c-7d8e9f0a1b2c
+		summarizeBy: none
+		sourceColumn: contract_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_id
+		dataType: string
+		lineageTag: ad9b0c1d-2e3f-4a5b-6c7d-8e9f0a1b2c3d
+		summarizeBy: none
+		sourceColumn: market_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_name
+		dataType: string
+		lineageTag: be0c1d2e-3f4a-5b6c-7d8e-9f0a1b2c3d4e
+		summarizeBy: none
+		sourceColumn: market_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column snapshot_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: cf1d2e3f-4a5b-6c7d-8e9f-0a1b2c3d4e5f
+		summarizeBy: none
+		sourceColumn: snapshot_date
+
+		variation Variación
+			isDefault
+			relationship: c21ca103-5f7a-4a67-80b6-e223d0a61459
+			defaultHierarchy: LocalDateTable_87818a73-5bb3-458e-9abe-264ad93f5cc3.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column close_price
+		dataType: double
+		lineageTag: d02e3f4a-5b6c-7d8e-9f0a-1b2c3d4e5f6a
+		summarizeBy: sum
+		sourceColumn: close_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_7d
+		dataType: double
+		lineageTag: e13f4a5b-6c7d-8e9f-0a1b-2c3d4e5f6a7b
+		summarizeBy: sum
+		sourceColumn: avg_7d
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_14d
+		dataType: double
+		lineageTag: f24a5b6c-7d8e-9f0a-1b2c-3d4e5f6a7b8c
+		summarizeBy: sum
+		sourceColumn: avg_14d
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column avg_30d
+		dataType: double
+		lineageTag: a35b6c7d-8e9f-0a1b-2c3d-4e5f6a7b8c9d
+		summarizeBy: sum
+		sourceColumn: avg_30d
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition mart_rolling_averages = m
+		mode: import
+		source =
+				let
+				    Origen = Odbc.DataSource("dsn=duckdb2", [HierarchicalNavigation=true]),
+				    predictit_Database = Origen{[Name="predictit",Kind="Database"]}[Data],
+				    main_marts_Schema = predictit_Database{[Name="main_marts",Kind="Schema"]}[Data],
+				    mart_rolling_averages_Table = main_marts_Schema{[Name="mart_rolling_averages",Kind="Table"]}[Data]
+				in
+				    mart_rolling_averages_Table
+
+	annotation PBI_ResultType = Table
+

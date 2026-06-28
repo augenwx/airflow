@@ -1,0 +1,96 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "scatter_spread",
+  "position": {
+    "x": 890,
+    "y": 110,
+    "z": 6000,
+    "height": 290,
+    "width": 380,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_spread_analysis"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_spread_analysis.contract_name",
+              "nativeQueryRef": "Contract",
+              "active": true
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_spread_analysis"
+                    }
+                  },
+                  "Property": "Avg Market Spread"
+                }
+              },
+              "queryRef": "mart_spread_analysis.Avg Market Spread",
+              "nativeQueryRef": "Avg Spread",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_volatility_analysis"
+                    }
+                  },
+                  "Property": "Avg Volatility"
+                }
+              },
+              "queryRef": "mart_volatility_analysis.Avg Volatility",
+              "nativeQueryRef": "Implied Volatility"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "fillPoint": [
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

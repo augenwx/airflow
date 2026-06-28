@@ -1,0 +1,94 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "contract_table_microstructure",
+  "position": {
+    "x": 432,
+    "y": 478,
+    "z": 13,
+    "height": 214,
+    "width": 390,
+    "tabOrder": 13
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_spread_analysis"
+                    }
+                  },
+                  "Property": "avg_spread_yes"
+                }
+              },
+              "queryRef": "mart_spread_analysis.avg_spread_yes",
+              "nativeQueryRef": "avg_spread_yes"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_spread_analysis"
+                    }
+                  },
+                  "Property": "current_spread_yes"
+                }
+              },
+              "queryRef": "mart_spread_analysis.current_spread_yes",
+              "nativeQueryRef": "current_spread_yes"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_spread_analysis"
+                    }
+                  },
+                  "Property": "max_spread_yes"
+                }
+              },
+              "queryRef": "mart_spread_analysis.max_spread_yes",
+              "nativeQueryRef": "max_spread_yes"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_spread_analysis"
+                    }
+                  },
+                  "Property": "implied_volatility"
+                }
+              },
+              "queryRef": "mart_spread_analysis.implied_volatility",
+              "nativeQueryRef": "implied_volatility"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_spread_analysis"
+                    }
+                  },
+                  "Property": "spread_volatility_ratio"
+                }
+              },
+              "queryRef": "mart_spread_analysis.spread_volatility_ratio",
+              "nativeQueryRef": "spread_volatility_ratio"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

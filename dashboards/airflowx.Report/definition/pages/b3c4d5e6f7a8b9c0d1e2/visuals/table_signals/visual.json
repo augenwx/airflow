@@ -1,0 +1,140 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "table_signals",
+  "position": {
+    "x": 690,
+    "y": 410,
+    "z": 8000,
+    "height": 300,
+    "width": 580,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "signal_type"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.signal_type",
+              "nativeQueryRef": "Signal"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "contract_name"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.contract_name",
+              "nativeQueryRef": "Contract"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "market_name"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.market_name",
+              "nativeQueryRef": "Market"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_anomaly_detection"
+                    }
+                  },
+                  "Property": "signal_strength"
+                }
+              },
+              "queryRef": "mart_anomaly_detection.signal_strength",
+              "nativeQueryRef": "Strength"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "f176443ab0a69847a20e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_anomaly_detection"
+              }
+            },
+            "Property": "signal_type"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "8606959752e10c27eb8e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_anomaly_detection"
+              }
+            },
+            "Property": "contract_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "e8737f9bdc5d7ea35823",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_anomaly_detection"
+              }
+            },
+            "Property": "market_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "ce4d950e87a0455ab3d2",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_anomaly_detection"
+              }
+            },
+            "Property": "signal_strength"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

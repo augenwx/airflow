@@ -1,0 +1,115 @@
+table mart_candidate_momentum
+	lineageTag: b46c7d8e-9f0a-1b2c-3d4e-5f6a7b8c9d0e
+
+	measure 'Avg Momentum' = AVERAGE(mart_candidate_momentum[avg_daily_change])
+		formatString: 0.00%
+		lineageTag: c57d8e9f-0a1b-2c3d-4e5f-6a7b8c9d0e1f
+
+	column contract_id
+		dataType: string
+		lineageTag: d68e9f0a-1b2c-3d4e-5f6a-7b8c9d0e1f2a
+		summarizeBy: none
+		sourceColumn: contract_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column contract_name
+		dataType: string
+		lineageTag: e79f0a1b-2c3d-4e5f-6a7b-8c9d0e1f2a3b
+		summarizeBy: none
+		sourceColumn: contract_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_id
+		dataType: string
+		lineageTag: f8a01b2c-3d4e-5f6a-7b8c-9d0e1f2a3b4c
+		summarizeBy: none
+		sourceColumn: market_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column market_name
+		dataType: string
+		lineageTag: a9b12c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d
+		summarizeBy: none
+		sourceColumn: market_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_daily_change
+		dataType: double
+		lineageTag: bac23d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e
+		summarizeBy: sum
+		sourceColumn: avg_daily_change
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_change_30d
+		dataType: double
+		lineageTag: cbd34e5f-6a7b-8c9d-0e1f-2a3b4c5d6e7f
+		summarizeBy: sum
+		sourceColumn: total_change_30d
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column momentum_direction
+		dataType: string
+		lineageTag: dce45f6a-7b8c-9d0e-1f2a-3b4c5d6e7f8a
+		summarizeBy: none
+		sourceColumn: momentum_direction
+
+		annotation SummarizationSetBy = Automatic
+
+	column momentum_rank
+		dataType: int64
+		formatString: 0
+		lineageTag: edf56a7b-8c9d-0e1f-2a3b-4c5d6e7f8a9b
+		summarizeBy: sum
+		sourceColumn: momentum_rank
+
+		annotation SummarizationSetBy = Automatic
+
+	column current_price
+		dataType: double
+		lineageTag: fea67b8c-9d0e-1f2a-3b4c-5d6e7f8a9b0c
+		summarizeBy: sum
+		sourceColumn: current_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column extraction_ts
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: afb78c9d-0e1f-2a3b-4c5d-6e7f8a9b0c1d
+		summarizeBy: none
+		sourceColumn: extraction_ts
+
+		variation Variación
+			isDefault
+			relationship: 67f3038f-a9cd-4c28-a673-f267e93c8758
+			defaultHierarchy: LocalDateTable_b17b24ee-300a-4b9c-9c90-6a091379f543.'Jerarquía de fechas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition mart_candidate_momentum = m
+		mode: import
+		source =
+				let
+				    Origen = Odbc.DataSource("dsn=duckdb2", [HierarchicalNavigation=true]),
+				    predictit_Database = Origen{[Name="predictit",Kind="Database"]}[Data],
+				    main_marts_Schema = predictit_Database{[Name="main_marts",Kind="Schema"]}[Data],
+				    mart_candidate_momentum_Table = main_marts_Schema{[Name="mart_candidate_momentum",Kind="Table"]}[Data]
+				in
+				    mart_candidate_momentum_Table
+
+	annotation PBI_ResultType = Table
+
